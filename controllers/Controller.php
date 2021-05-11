@@ -60,6 +60,21 @@ class Controller
         $this->view->viewFooter();
     }
 
+    private function getEnd()
+    {
+        $this->view->viewEnd();
+    }
+
+    private function getRecordsStart()
+    {
+        $this->view->viewRecordsStart();
+    }
+
+    private function getRecordsEnd()
+    {
+        $this->view->viewRecordsEnd();
+    }
+
     private function about()
     {
         $this->getHeader("Om Oss");
@@ -70,9 +85,12 @@ class Controller
     private function getAllRecords()
     {
         $this->getHeader("Välkommen");
-        $movies = $this->model->fetchAllMovies();
-        $this->view->viewAllMovies($movies);
+        $this->getRecordsStart();
+        $records = $this->model->fetchAllRecords();
+        $this->view->viewAllRecords($records);
+        $this->getRecordsEnd();
         $this->getFooter();
+        $this->getEnd();
     }
 
     private function order()
@@ -82,7 +100,7 @@ class Controller
         $id = $this->sanitize($_GET['id']);
         $movie = $this->model->fetchMovieById($id);
 
-        if($movie)
+        if ($movie)
             $this->view->viewOrderPage($movie);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')

@@ -10,10 +10,10 @@ class Model
         $this->db = $database;
     }
 
-    public function fetchAllMovies()
+    public function fetchAllRecords()
     {
-        $movies = $this->db->select("SELECT * FROM films");
-        return $movies;
+        $records = $this->db->select("SELECT * FROM records");
+        return $records;
     }
 
     public function fetchMovieById($id)
