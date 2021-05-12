@@ -3,7 +3,7 @@
 class Controller
 {
     private $model;
-    // private $view;
+    private $view;
 
     public function __construct($model, $view)
     {
