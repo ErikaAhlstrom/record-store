@@ -55,6 +55,11 @@ class Controller
         $this->view->viewHeader($title);
     }
 
+    private function getHero()
+    {
+        $this->view->viewHero();
+    }
+
     private function getFooter()
     {
         $this->view->viewFooter();
@@ -65,9 +70,9 @@ class Controller
         $this->view->viewEnd();
     }
 
-    private function getRecordsStart()
+    private function getRecordsStart($genres)
     {
-        $this->view->viewRecordsStart();
+        $this->view->viewRecordsStart($genres);
     }
 
     private function getRecordsEnd()
@@ -85,7 +90,10 @@ class Controller
     private function getAllRecords()
     {
         $this->getHeader("Välkommen");
-        $this->getRecordsStart();
+        $this->getHero();
+
+        $genres = $this->model->fetchAllGenres();
+        $this->getRecordsStart($genres);
         $records = $this->model->fetchAllRecords();
         $this->view->viewAllRecords($records);
         $this->getRecordsEnd();

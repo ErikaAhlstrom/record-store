@@ -16,6 +16,12 @@ class Model
         return $records;
     }
 
+    public function fetchAllGenres()
+    {
+        $genres = $this->db->select("SELECT * FROM genres");
+        return $genres;
+    }
+
     public function fetchMovieById($id)
     {
         $statement = "SELECT * FROM films WHERE film_id = :id";

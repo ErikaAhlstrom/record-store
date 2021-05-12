@@ -17,9 +17,11 @@
                 Genre
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Pop</a>
-                <a class="dropdown-item" href="#">Rock</a>
-                <a class="dropdown-item" href="#">Indie</a>
+                <?php
+                foreach ($genres as $genre) {
+                  echo "<a class='dropdown-item' href='?genre=$genre[genre]'>$genre[genre]</a>";
+                }
+                ?>
               </div>
             </div>
             <!-- Portfolio Grid Items-->
