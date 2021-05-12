@@ -26,11 +26,6 @@ class View
     include_once("views/partials/recordsEnd.php");
   }
 
-  public function viewEnd()
-  {
-    include_once("views/partials/end.php");
-  }
-
   public function viewOneRecord($record)
   {
     $html = <<<HTML
@@ -69,9 +64,19 @@ class View
                                                       <div class="divider-custom-line"></div>
                                                   </div>
                                                   <!-- Portfolio Modal - Image-->
-                                                  <img class="img-fluid rounded mb-5" src="$record[cover]" alt="..." />
+                                                  <div class="row">
+                                                    <img class="img-fluid rounded mb-5 col-6" src="$record[cover]" alt="the cover of $record[title]" />
+                                                    <div class="col-6">
+                                                      <h3>$record[name]</h3>
+                                                      <p class="mb-5">$record[description]</p>
+                                                      <p class="mb-5">$record[price]:-</p>
+                                                      <p class="mb-5">$record[year_released]</p>
+                                                      <form action="#" method="POST">
+                                                      <input type="submit" value="hejsan"/>
+                                                      </form>
+                                                    </div>
+                                                  </div>
                                                   <!-- Portfolio Modal - Text-->
-                                                  <p class="mb-5">$record[description]</p>
                                                   <button class="btn btn-primary" data-dismiss="modal">
                                                       <i class="fas fa-times fa-fw"></i>
                                                       Close Window
