@@ -65,11 +65,6 @@ class Controller
         $this->view->viewFooter();
     }
 
-    private function getEnd()
-    {
-        $this->view->viewEnd();
-    }
-
     private function getRecordsStart($genres)
     {
         $this->view->viewRecordsStart($genres);
@@ -98,7 +93,6 @@ class Controller
         $this->view->viewAllRecords($records);
         $this->getRecordsEnd();
         $this->getFooter();
-        $this->getEnd();
     }
 
     private function order()
