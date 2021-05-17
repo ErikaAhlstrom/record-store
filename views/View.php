@@ -30,7 +30,7 @@ class View
   {
     $html = <<<HTML
                   <div class="col-md-6 col-lg-4 mb-5">
-                      <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal1">
+                      <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal$record[id_record]">
                           <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
                               <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
                           </div>
@@ -43,9 +43,9 @@ class View
   }
 
   public function viewModal($record)
-  { 
+  {
     $html = <<<HTML
-                  <div class="portfolio-modal modal fade" id="portfolioModal1" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
+                  <div class="portfolio-modal modal fade" id="portfolioModal$record[id_record]" tabindex="-1" role="dialog" aria-labelledby="portfolioModal1Label" aria-hidden="true">
                           <div class="modal-dialog modal-xl" role="document">
                               <div class="modal-content">
                                   <button class="close" type="button" data-dismiss="modal" aria-label="Close">
