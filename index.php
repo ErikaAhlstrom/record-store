@@ -6,14 +6,17 @@ define('URLROOT', 'http://localhost/record-store/');
 require_once("models/Database.php");
 require_once("models/Model.php");
 require_once("models/CartModel.php");
+require_once("models/AdminModel.php");
 
 // Views
 require_once("views/View.php");
 require_once("views/CartView.php");
+require_once("views/AdminView.php");
 
 // Controllers
 require_once("controllers/Controller.php");
 require_once("controllers/CartController.php");
+require_once("controllers/AdminController.php");
 
 $database = new Database("recordstoreDB", "root", "root");
 
@@ -21,12 +24,15 @@ $model = new Model($database);
 $view = new View();
 $controller = new Controller($model, $view);
 
-// $controller->main();
-
-
+// Cart MVC
 $cartModel = new CartModel($database);
 $cartView  = new CartView();
 $cartController = new CartController($cartModel, $cartView);
+
+// Admin MVC
+$adminModel = new AdminModel($database);
+$adminView  = new AdminView();
+$adminController = new AdminController($adminModel, $adminView);
 
 // Simple Router
 
@@ -41,9 +47,9 @@ switch ($page) {
     case "cart":
         $cartController->cart();
         break;
-        // case "admin":
-        //     $adminController->admin($param);
-        //     break;
+    case "admin":
+        $adminController->admin($param);
+        break;
         // case "login":
         //     $controller->login();
         //     break;
