@@ -1,7 +1,7 @@
-<section class="page-section mt-5" id="login">
+<section class="page-section mt-5" id="register">
     <div class="container">
         <!-- Contact Section Heading-->
-        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Log In</h2>
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Register</h2>
         <!-- Icon Divider-->
         <div class="divider-custom">
             <div class="divider-custom-line"></div>
@@ -22,6 +22,13 @@
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            <label>Phone Number</label>
+                            <input name="phone" class="form-control" id="phone" type="text" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Password</label>
                             <input name="password" class="form-control" id="password" type="password" placeholder="Password" required="required" data-validation-required-message="Please enter your password." />
                             <p class="help-block text-danger"></p>
@@ -29,7 +36,7 @@
                     </div>
                     <br />
                     <div id="success"></div>
-                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Log In</button></div>
+                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Register</button></div>
                 </form>
             </div>
         </div>

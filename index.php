@@ -8,18 +8,22 @@ require_once("models/Model.php");
 require_once("models/CartModel.php");
 require_once("models/AdminModel.php");
 require_once("models/LoginModel.php");
+require_once("models/RegisterModel.php");
 
 // Views
 require_once("views/View.php");
 require_once("views/CartView.php");
 require_once("views/AdminView.php");
 require_once("views/LoginView.php");
+require_once("views/RegisterView.php");
+
 
 // Controllers
 require_once("controllers/Controller.php");
 require_once("controllers/CartController.php");
 require_once("controllers/AdminController.php");
 require_once("controllers/LoginController.php");
+require_once("controllers/RegisterController.php");
 
 $database = new Database("recordstoreDB", "root", "root");
 
@@ -42,6 +46,11 @@ $loginModel = new LoginModel($database);
 $loginView  = new LoginView();
 $loginController = new LoginController($loginModel, $loginView);
 
+// Login MVC
+$registerModel = new RegisterModel($database);
+$registerView  = new RegisterView();
+$registerController = new RegisterController($registerModel, $registerView);
+
 // Simple Router
 
 $url = getUrl();
@@ -61,9 +70,9 @@ switch ($page) {
     case "login":
         $loginController->login();
         break;
-        // case "register":
-        //     $controller->register();
-        //     break;
+    case "register":
+        $registerController->register();
+        break;
     default:
         $controller->index("This endpoint doesn't exist!");
         break;
