@@ -7,16 +7,19 @@ require_once("models/Database.php");
 require_once("models/Model.php");
 require_once("models/CartModel.php");
 require_once("models/AdminModel.php");
+require_once("models/LoginModel.php");
 
 // Views
 require_once("views/View.php");
 require_once("views/CartView.php");
 require_once("views/AdminView.php");
+require_once("views/LoginView.php");
 
 // Controllers
 require_once("controllers/Controller.php");
 require_once("controllers/CartController.php");
 require_once("controllers/AdminController.php");
+require_once("controllers/LoginController.php");
 
 $database = new Database("recordstoreDB", "root", "root");
 
@@ -34,6 +37,11 @@ $adminModel = new AdminModel($database);
 $adminView  = new AdminView();
 $adminController = new AdminController($adminModel, $adminView);
 
+// Login MVC
+$loginModel = new LoginModel($database);
+$loginView  = new LoginView();
+$loginController = new LoginController($loginModel, $loginView);
+
 // Simple Router
 
 $url = getUrl();
@@ -50,9 +58,9 @@ switch ($page) {
     case "admin":
         $adminController->admin($param);
         break;
-        // case "login":
-        //     $controller->login();
-        //     break;
+    case "login":
+        $loginController->login();
+        break;
         // case "register":
         //     $controller->register();
         //     break;
