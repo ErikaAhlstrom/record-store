@@ -10,6 +10,23 @@ class CartController
         $this->model = $model;
         $this->view = $view;
     }
+
+    public function cart()
+    {
+        $this->getHeader("Cart");
+
+        $id = $this->sanitize($_GET['id']);
+        $cart = $this->model->fetchCartById($id);
+
+        if ($cart)
+            $this->view->viewCartPage($cart);
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+            $this->processOrderForm();
+
+        $this->getFooter();
+    }
+
     private function getHeader($title)
     {
         $this->view->viewHeader($title);
@@ -20,27 +37,11 @@ class CartController
         $this->view->viewFooter();
     }
 
-    private function cart()
-    {
-        $this->getHeader("Beställning");
-
-        $id = $this->sanitize($_GET['id']);
-        $movie = $this->model->fetchMovieById($id);
-
-        if ($movie)
-            $this->view->viewOrderPage($movie);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $this->processOrderForm();
-
-        $this->getFooter();
-    }
-
     private function processOrderForm()
     {
-        $movie_id    = $this->sanitize($_POST['film_id']);
+        $record_id    = $this->sanitize($_POST['record_id']);
         $customer_id = $this->sanitize($_POST['customer_id']);
-        $confirm = $this->model->saveOrder($customer_id, $movie_id);
+        $confirm = $this->model->saveOrder($customer_id, $record_id);
 
         if ($confirm) {
             $customer = $confirm['customer'];

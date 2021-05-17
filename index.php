@@ -5,11 +5,11 @@ define('URLROOT', 'http://localhost/record-store/');
 // Models
 require_once("models/Database.php");
 require_once("models/Model.php");
-// require_once("models/CartModel.php");
+require_once("models/CartModel.php");
 
 // Views
 require_once("views/View.php");
-// require_once("views/CartView.php");
+require_once("views/CartView.php");
 
 // Controllers
 require_once("controllers/Controller.php");
@@ -24,9 +24,9 @@ $controller = new Controller($model, $view);
 // $controller->main();
 
 
-// $cartModel = new CartModel($database);
-// $cartView  = new CartView();
-// $cartController = new CartController($cartModel, $cartView);
+$cartModel = new CartModel($database);
+$cartView  = new CartView();
+$cartController = new CartController($cartModel, $cartView);
 
 // Simple Router
 
@@ -39,7 +39,7 @@ switch ($page) {
         $controller->index();
         break;
     case "cart":
-        $cartController->cart($param);
+        $cartController->cart();
         break;
         // case "admin":
         //     $adminController->admin($param);
