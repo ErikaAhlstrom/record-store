@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 17, 2021 at 07:54 AM
+-- Generation Time: May 17, 2021 at 09:24 AM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -13,6 +13,129 @@ SET time_zone = "+00:00";
 --
 -- Database: `recordstoredb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id_admin` int(11) NOT NULL,
+  `username` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `password` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `artists`
+--
+
+CREATE TABLE `artists` (
+  `id_artist` int(11) NOT NULL,
+  `name` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `artists`
+--
+
+INSERT INTO `artists` (`id_artist`, `name`) VALUES
+(1, 'Jacques Greene'),
+(2, 'Burial'),
+(3, 'DJ Black Low'),
+(4, 'Mount Kimbie'),
+(5, 'Telex'),
+(6, 'Oscar Lang'),
+(7, 'Japanese Breakfast'),
+(8, 'Peter Murphy'),
+(9, 'Rostam'),
+(10, 'Spang Sisters'),
+(11, 'Billie Eilish'),
+(12, 'NINA'),
+(13, 'Easy Life'),
+(14, 'Moby'),
+(15, 'Meduza'),
+(16, 'Laura Mvula'),
+(17, 'McKinley Dixon'),
+(18, 'Raleigh Ritchie'),
+(19, 'Madlib'),
+(20, 'Four Tet'),
+(21, 'Ocean Wisdom');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `carts`
+--
+
+CREATE TABLE `carts` (
+  `id_record` int(11) NOT NULL,
+  `id_customer` int(11) NOT NULL,
+  `amount` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customers`
+--
+
+CREATE TABLE `customers` (
+  `id_customer` int(11) NOT NULL,
+  `phone_number` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `email` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `timestamp` datetime(6) DEFAULT NULL,
+  `password` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `genres`
+--
+
+CREATE TABLE `genres` (
+  `id_genre` int(11) NOT NULL,
+  `genre` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `genres`
+--
+
+INSERT INTO `genres` (`id_genre`, `genre`) VALUES
+(1, 'electronic'),
+(2, 'indie'),
+(3, 'pop'),
+(4, 'r&b');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `orders`
+--
+
+CREATE TABLE `orders` (
+  `id_order` int(11) NOT NULL,
+  `sent` tinyint(1) DEFAULT NULL,
+  `timestamp` datetime(6) DEFAULT NULL,
+  `id_customer` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `order_details`
+--
+
+CREATE TABLE `order_details` (
+  `id_order_details` int(11) NOT NULL,
+  `orders_id_order` int(11) NOT NULL,
+  `records_id_record` int(11) NOT NULL,
+  `amount` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 -- --------------------------------------------------------
 
@@ -55,9 +178,129 @@ INSERT INTO `records` (`id_record`, `title`, `description`, `price`, `year_relea
 (19, 'Sound Ancestors (Arranged By Kieran Hebden', 'Gil Evans to Miles Davis…. Holger Czukay to the ensemble known as Can….Jean Claude Vannier to Serge Gainsbourg on Histoire de Melody Nelson. That’s the only way to explain the specificity of Four Tet and Madlib’s collaboration, in this special album that showcases a two-decade long friendship that has resulted in an album that follows Madlib’s classics like Quasimoto’s The Unseen, Madvillainy and his Pinata and Bandana albums with Freddie Gibbs.', '34', '2021', 'assets/covers/19.png'),
 (20, 'Stay Sane', 'Ocean Wisdom reveals he will be releasing his hotly-anticipated third album ’Stay Sane’ on February 19th 2021 on his own label Beyond Measure Records. The album will feature latest single ‘Drilly Rucksack’. Speaking on the album, Ocean said: “This album is called ‘Stay Sane’ and I made it to help myself cope after losses and tribulations. I hope it can help other people to heal and relax.”', '16', '2021', 'assets/covers/20.jpeg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `records_has_artists`
+--
+
+CREATE TABLE `records_has_artists` (
+  `id_record` int(11) NOT NULL,
+  `id_artist` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `records_has_artists`
+--
+
+INSERT INTO `records_has_artists` (`id_record`, `id_artist`) VALUES
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6),
+(7, 7),
+(8, 8),
+(9, 9),
+(10, 10),
+(11, 11),
+(12, 12),
+(13, 13),
+(14, 14),
+(15, 15),
+(16, 16),
+(17, 17),
+(18, 18),
+(19, 19),
+(19, 20),
+(20, 21);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `records_has_genres`
+--
+
+CREATE TABLE `records_has_genres` (
+  `id_genre` int(11) NOT NULL,
+  `id_record` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `records_has_genres`
+--
+
+INSERT INTO `records_has_genres` (`id_genre`, `id_record`) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(1, 4),
+(1, 5),
+(2, 7),
+(2, 8),
+(2, 9),
+(2, 10),
+(3, 11),
+(3, 12),
+(3, 13),
+(3, 14),
+(3, 15),
+(4, 16),
+(4, 17),
+(4, 18),
+(4, 19),
+(4, 20);
+
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id_admin`);
+
+--
+-- Indexes for table `artists`
+--
+ALTER TABLE `artists`
+  ADD PRIMARY KEY (`id_artist`);
+
+--
+-- Indexes for table `carts`
+--
+ALTER TABLE `carts`
+  ADD PRIMARY KEY (`id_record`,`id_customer`),
+  ADD KEY `fk_records_has_customers_customers1_idx` (`id_customer`),
+  ADD KEY `fk_records_has_customers_records1_idx` (`id_record`);
+
+--
+-- Indexes for table `customers`
+--
+ALTER TABLE `customers`
+  ADD PRIMARY KEY (`id_customer`);
+
+--
+-- Indexes for table `genres`
+--
+ALTER TABLE `genres`
+  ADD PRIMARY KEY (`id_genre`);
+
+--
+-- Indexes for table `orders`
+--
+ALTER TABLE `orders`
+  ADD PRIMARY KEY (`id_order`),
+  ADD KEY `fk_orders_customers1_idx` (`id_customer`);
+
+--
+-- Indexes for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD PRIMARY KEY (`orders_id_order`,`records_id_record`),
+  ADD KEY `fk_order_details_records1_idx` (`records_id_record`);
 
 --
 -- Indexes for table `records`
@@ -66,11 +309,95 @@ ALTER TABLE `records`
   ADD PRIMARY KEY (`id_record`);
 
 --
+-- Indexes for table `records_has_artists`
+--
+ALTER TABLE `records_has_artists`
+  ADD PRIMARY KEY (`id_record`,`id_artist`),
+  ADD KEY `fk_records_has_artists_artists1_idx` (`id_artist`),
+  ADD KEY `fk_records_has_artists_records1_idx` (`id_record`);
+
+--
+-- Indexes for table `records_has_genres`
+--
+ALTER TABLE `records_has_genres`
+  ADD PRIMARY KEY (`id_record`,`id_genre`),
+  ADD KEY `fk_genres_has_records_records1_idx` (`id_record`),
+  ADD KEY `fk_genres_has_records_genres_idx` (`id_genre`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `artists`
+--
+ALTER TABLE `artists`
+  MODIFY `id_artist` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+
+--
+-- AUTO_INCREMENT for table `customers`
+--
+ALTER TABLE `customers`
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `genres`
+--
+ALTER TABLE `genres`
+  MODIFY `id_genre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+
+--
+-- AUTO_INCREMENT for table `orders`
+--
+ALTER TABLE `orders`
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `records`
 --
 ALTER TABLE `records`
   MODIFY `id_record` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `carts`
+--
+ALTER TABLE `carts`
+  ADD CONSTRAINT `fk_records_has_customers_customers1` FOREIGN KEY (`id_customer`) REFERENCES `customers` (`id_customer`),
+  ADD CONSTRAINT `fk_records_has_customers_records1` FOREIGN KEY (`id_record`) REFERENCES `records` (`id_record`);
+
+--
+-- Constraints for table `orders`
+--
+ALTER TABLE `orders`
+  ADD CONSTRAINT `fk_orders_customers1` FOREIGN KEY (`id_customer`) REFERENCES `customers` (`id_customer`);
+
+--
+-- Constraints for table `order_details`
+--
+ALTER TABLE `order_details`
+  ADD CONSTRAINT `fk_order_details_orders1` FOREIGN KEY (`orders_id_order`) REFERENCES `orders` (`id_order`),
+  ADD CONSTRAINT `fk_order_details_records1` FOREIGN KEY (`records_id_record`) REFERENCES `records` (`id_record`);
+
+--
+-- Constraints for table `records_has_artists`
+--
+ALTER TABLE `records_has_artists`
+  ADD CONSTRAINT `fk_records_has_artists_artists1` FOREIGN KEY (`id_artist`) REFERENCES `artists` (`id_artist`),
+  ADD CONSTRAINT `fk_records_has_artists_records1` FOREIGN KEY (`id_record`) REFERENCES `records` (`id_record`);
+
+--
+-- Constraints for table `records_has_genres`
+--
+ALTER TABLE `records_has_genres`
+  ADD CONSTRAINT `fk_genres_has_records_genres` FOREIGN KEY (`id_genre`) REFERENCES `genres` (`id_genre`),
+  ADD CONSTRAINT `fk_genres_has_records_records1` FOREIGN KEY (`id_record`) REFERENCES `records` (`id_record`);
