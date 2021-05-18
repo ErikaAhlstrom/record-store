@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 17, 2021 at 09:24 AM
+-- Generation Time: May 18, 2021 at 08:13 AM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -26,6 +26,13 @@ CREATE TABLE `admin` (
   `password` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
+--
+-- Dumping data for table `admin`
+--
+
+INSERT INTO `admin` (`id_admin`, `username`, `password`) VALUES
+(1, 'admin', 'adminhejhej');
+
 -- --------------------------------------------------------
 
 --
@@ -34,7 +41,7 @@ CREATE TABLE `admin` (
 
 CREATE TABLE `artists` (
   `id_artist` int(11) NOT NULL,
-  `name` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+  `name` varchar(200) COLLATE utf8_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
@@ -73,8 +80,17 @@ INSERT INTO `artists` (`id_artist`, `name`) VALUES
 CREATE TABLE `carts` (
   `id_record` int(11) NOT NULL,
   `id_customer` int(11) NOT NULL,
-  `amount` int(11) DEFAULT NULL
+  `amount` int(11) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `carts`
+--
+
+INSERT INTO `carts` (`id_record`, `id_customer`, `amount`, `timestamp`) VALUES
+(16, 4, 1, '2021-05-18 08:03:31'),
+(18, 3, 2, '2021-05-18 08:03:31');
 
 -- --------------------------------------------------------
 
@@ -84,11 +100,23 @@ CREATE TABLE `carts` (
 
 CREATE TABLE `customers` (
   `id_customer` int(11) NOT NULL,
+  `firstName` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
+  `lastName` varchar(50) COLLATE utf8_swedish_ci NOT NULL,
   `phone_number` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
   `email` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
-  `timestamp` datetime(6) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `password` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `customers`
+--
+
+INSERT INTO `customers` (`id_customer`, `firstName`, `lastName`, `phone_number`, `email`, `timestamp`, `password`) VALUES
+(3, 'Erika', 'Ahlström', '0701234567', 'erika@example.se', '2021-05-18 07:53:12', 'erikahejhej'),
+(4, 'Marta', 'Pettersson', '0701112233', 'marta@example.com', '2021-05-18 07:53:41', 'martahejhej'),
+(5, 'Kicki', 'Halmos', '0705554455', 'kicki@example.se', '2021-05-18 07:54:36', 'kickihejhej'),
+(6, 'Gustaf', 'Johnsson', '0707788999', 'gustaf@example.com', '2021-05-18 07:55:16', 'gustafhejhej');
 
 -- --------------------------------------------------------
 
@@ -120,9 +148,18 @@ INSERT INTO `genres` (`id_genre`, `genre`) VALUES
 CREATE TABLE `orders` (
   `id_order` int(11) NOT NULL,
   `sent` tinyint(1) DEFAULT NULL,
-  `timestamp` datetime(6) DEFAULT NULL,
+  `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `id_customer` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `orders`
+--
+
+INSERT INTO `orders` (`id_order`, `sent`, `timestamp`, `id_customer`) VALUES
+(1, 0, '2021-05-18 08:04:51', 6),
+(2, 1, '2021-05-18 08:04:51', 5),
+(3, 0, '2021-05-18 08:05:05', 3);
 
 -- --------------------------------------------------------
 
@@ -131,11 +168,21 @@ CREATE TABLE `orders` (
 --
 
 CREATE TABLE `order_details` (
-  `id_order_details` int(11) NOT NULL,
   `orders_id_order` int(11) NOT NULL,
   `records_id_record` int(11) NOT NULL,
   `amount` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
+
+--
+-- Dumping data for table `order_details`
+--
+
+INSERT INTO `order_details` (`orders_id_order`, `records_id_record`, `amount`) VALUES
+(1, 2, 2),
+(1, 8, 1),
+(2, 4, 3),
+(2, 9, 1),
+(3, 16, 2);
 
 -- --------------------------------------------------------
 
@@ -145,10 +192,10 @@ CREATE TABLE `order_details` (
 
 CREATE TABLE `records` (
   `id_record` int(11) NOT NULL,
-  `title` varchar(100) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `title` varchar(200) COLLATE utf8_swedish_ci DEFAULT NULL,
   `description` varchar(1000) COLLATE utf8_swedish_ci DEFAULT NULL,
   `price` decimal(11,0) DEFAULT NULL,
-  `year_released` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
+  `year_released` varchar(4) COLLATE utf8_swedish_ci DEFAULT NULL,
   `cover` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
@@ -169,7 +216,7 @@ INSERT INTO `records` (`id_record`, `title`, `description`, `price`, `year_relea
 (10, 'Spang Sisters: Soft Lilac Vinyl', 'RnB-flecked bedroom folk duo Spang Sisters are excited to confirm that their debut full length album will be arriving this spring.\\n                The Brighton/Bristol duo have a palpable appreciation and knowledge of the music of yesteryear, which manifests itself with poise throughout the band’s output. The Velvet Underground, Motown, Dr.Dre and the Japanese folk band Happy End have all contributed inspiration to a debut record that is unlike any other.', '25', '2020', 'assets/covers/10.jpeg'),
 (11, '‘Happier Than Ever’ Vinyl', NULL, '43', '2021', 'assets/covers/11.png'),
 (12, 'The Beginning', 'The Queen of Synthwave presents the singles and b-sides that started it all, including NINA\'s four seminal songs in digital and physical formats plus the addition of instrumentals. NINA\'s earliest releases introduced to a new generation of fans and adepts. Also included, the iconic Blondie’s \'Heart Of Glass\' reimagined as a Synthwave anthem. A crowd favourite at the live shows.', '14', '2018', 'assets/covers/12.jpeg'),
-(13, 'lifes a beach: standard cassette', 'Standard clear frosted cassette with ‘life’s a beach’ artwork', '9', '2016', 'assets/covers/13.jpg'),
+(13, 'lifes a beach: standard cassette', 'Standard clear frosted cassette with ‘life’s a beach’ artwork', '9', '2016', 'assets/covers/13.png'),
 (14, 'Reprise: Exclusive Deluxe 180gm Crystal Clear Vinyl 2LP + Little Idiot Slipmat - Double Vinyl LP', 'Moby’s latest album Reprise available now in special 2-LP limited edition on top-quality 180g crystal clear vinyl! Double LP in gatefold sleeve, includes Moby’s personal essay on this exciting new project, rich selection of photos by and of the artist and black polyester slipmat with Little Idiot design.', '50', '2020', 'assets/covers/14.png'),
 (15, 'Piece Of Your Heart/ Lose Control: Exclusive Picture Disc Vinyl', 'Limited 10inch Picture-Vinyl in transparent foil sleeve', '14', '2017', 'assets/covers/15.png'),
 (16, 'Pink Noise: Pink Vinyl LP', 'Laura Mvula’s new album ‘Pink Noise’ is set for release on July 2nd. ‘Pink Noise’ explores a side of Laura previously uncharted. As triumphant as ever, the album is a battle cry and stark reminder of the sheer talent of the critically acclaimed artist. This is Laura in a new found light - still reflecting her distinctive signature sound but showing the progression of an artist who has come into her own.', '24', '2021', 'assets/covers/16.jpeg'),
@@ -332,7 +379,7 @@ ALTER TABLE `records_has_genres`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_admin` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `artists`
@@ -344,7 +391,7 @@ ALTER TABLE `artists`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `genres`
@@ -356,7 +403,7 @@ ALTER TABLE `genres`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `records`
