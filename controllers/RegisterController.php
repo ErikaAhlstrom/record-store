@@ -12,6 +12,14 @@ class RegisterController
 
     public function register()
     {
+        if ($_SERVER["REQUEST_METHOD"] === "POST") {
+            $email = $this->sanitize($_POST['email']);
+            $phone = $this->sanitize($_POST['phone']);
+            $password = $this->sanitize($_POST['password']);
+            try {
+                $this->model->registerCustomer($email, $phone, $password);
+            }
+        }
         $this->getHeader("Login");
         $this->getRegisterForm();
         $this->getFooter();
@@ -21,7 +29,6 @@ class RegisterController
     {
         $this->view->viewHeader($title);
     }
-
 
     private function getRegisterForm()
     {
