@@ -18,7 +18,7 @@ class RegisterModel
                       VALUES (:email, :phone, :password)";
         $parameters = array(':email' => $email, ':phone' => $phone, ':password' => $password);
         
-        $return = $this->db->insert($statement, $parameters)
+        return $this->db->insert($statement, $parameters);
     }
 
     private function userCheck($email)

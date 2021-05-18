@@ -109,11 +109,9 @@ class CartView
     public function printMessage($message, $messageType = "danger")
     {
         $html = <<< HTML
-
             <div class="my-2 alert alert-$messageType">
                 $message
             </div>
-
         HTML;
 
         echo $html;
