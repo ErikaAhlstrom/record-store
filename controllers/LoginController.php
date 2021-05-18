@@ -14,7 +14,7 @@ class LoginController
     public function login()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            
+
             $email = $this->sanitize($_POST['email']);
             $password = $this->sanitize($_POST['password']);
             try {

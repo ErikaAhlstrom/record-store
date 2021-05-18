@@ -15,8 +15,39 @@ class AdminController
     {
         $this->getHeader("Admin");
 
-        $records = $this->getAllRecords();
-        $this->view->viewAllRecords($records);
+        switch ($param) {
+            case "":
+                //LOGIN eller PRODUCTS om Admin finns i session
+                if (isset($_SESSION["admin"])) {
+                    $destination = URLROOT;
+                    header("Location: $destination" . "admin/products");
+                    die();
+                }
+
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    $this->login();
+                }
+                $this->getLoginForm();
+
+                break;
+
+            case "products":
+                $records = $this->getAllProducts();
+                $this->view->viewAllProducts($records);
+                break;
+
+            case "orders":
+
+                break;
+            case "customers":
+
+                break;
+            default:
+                //$controller->index("This endpoint doesn't exist!");
+                break;
+        }
+        // $records = $this->getAllProducts();
+        // $this->view->viewAllRecords($records);
 
         // om det finns en session för admin -> redirect till admin/records
         // annars rendera viewAdminLogin
@@ -32,7 +63,7 @@ class AdminController
         $this->view->viewHeader($title);
     }
 
-    private function getAllRecords()
+    private function getAllProducts()
     {
         return $this->model->fetchAllRecords();
     }
@@ -40,6 +71,26 @@ class AdminController
     private function getFooter()
     {
         $this->view->viewFooter();
+    }
+
+    private function getLoginForm()
+    {
+        $this->view->viewLoginForm();
+    }
+
+    private function login()
+    {
+        $username = $this->sanitize($_POST["username"]);
+        $password = $this->sanitize($_POST["password"]);
+
+        try {
+            $_SESSION["admin"] = $this->model->loginAdmin($username, $password);
+            $destination = URLROOT;
+            header("Location: $destination" . "admin/products");
+            die();
+        } catch (Exception $e) {
+            $e->getMessage();
+        }
     }
 
     /**

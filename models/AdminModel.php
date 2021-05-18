@@ -9,9 +9,18 @@ class AdminModel
         $this->db = $database;
     }
 
-    public function loginAdmin(/*kanskeparameterhär*/)
+    public function loginAdmin($username, $password)
     {
-        // Kolla om admin finns och returnera true or false 
+        $statement = "SELECT * FROM admin WHERE username = :username";
+
+        $parameters = array(":username" => $username);
+        $admin = $this->db->select($statement, $parameters)[0];
+
+        if (empty($admin) || !password_verify($password, $admin['password'])) {
+            throw new Exception("Email or password is wrong");
+        }
+
+        return $admin;
     }
 
     public function fetchAllRecords()
