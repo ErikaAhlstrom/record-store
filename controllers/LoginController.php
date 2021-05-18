@@ -21,7 +21,7 @@ class LoginController
                 $customer = $this->model->loginCustomer($email, $password);
                 $_SESSION['customer'] = $customer;
                 $destination = URLROOT;
-                header("Location $destination");
+                header("Location: $destination");
             } catch (Exception $e) {
                 echo $e->getMessage();
             }
