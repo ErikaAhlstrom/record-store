@@ -17,6 +17,7 @@ class CartController
 
         $id = $this->sanitize($_GET['id']);
         $cart = $this->model->fetchCartById($id);
+        print_r($cart);
 
         if ($cart)
             $this->view->viewCartPage($cart);
