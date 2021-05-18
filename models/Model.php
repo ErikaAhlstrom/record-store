@@ -13,11 +13,11 @@ class Model
     public function fetchAllRecords()
     {
         $records = $this->db->select(
-            "SELECT * FROM records 
-        JOIN records_has_artists 
-        ON records.id_record=records_has_artists.id_record 
-        JOIN artists 
-        ON records_has_artists.id_artist=artists.id_artist
+            "SELECT records.title, records.description, records.price, records.id_record, records.cover, records.year_released, 
+            GROUP_CONCAT(artists.name) AS name
+            FROM records 
+            LEFT JOIN records_has_artists ON records_has_artists.id_record = records.id_record 
+            LEFT JOIN artists ON artists.id_artist = records_has_artists.id_artist GROUP BY records.id_record
         "
         );
         return $records;
