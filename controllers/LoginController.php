@@ -1,4 +1,5 @@
 <?php
+session_start();
 class LoginController
 {
     private $model;
@@ -12,6 +13,19 @@ class LoginController
 
     public function login()
     {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            
+            $email = $this->sanitize($_POST['email']);
+            $password = $this->sanitize($_POST['password']);
+            try {
+                $customer = $this->model->loginCustomer($email, $password);
+                $_SESSION['customer'] = $customer;
+                $destination = URLROOT;
+                header("Location: $destination");
+            } catch (Exception $e) {
+                echo $e->getMessage();
+            }
+        }
         $this->getHeader("Login");
         $this->getLoginForm();
         $this->getFooter();
@@ -21,7 +35,6 @@ class LoginController
     {
         $this->view->viewHeader($title);
     }
-
 
     private function getLoginForm()
     {

@@ -8,8 +8,17 @@ class LoginModel
         $this->db = $database;
     }
 
-    public function loginCustomer(/*kanskeparameterhär*/)
+    public function loginCustomer($email, $password)
     {
-        // Kolla om customer finns och returnera true or false 
+        $statement = "SELECT * FROM customers WHERE email = :email";
+
+        $parameters = array(":email" => $email);
+        $customer = $this->db->select($statement, $parameters)[0];
+    
+        if (empty($customer) || !password_verify($password, $customer['password'])) {
+            throw new Exception("Email or password is wrong");
+        }
+
+        return $customer;
     }
 }
