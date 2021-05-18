@@ -15,7 +15,7 @@ class CartModel
         $params = array(":id" => $id);
         $cart = $this->db->select($statement, $params);
         //print_r($record);
-        return $cart[0] ?? false;
+        return $cart ?? false;
     }
 
     // public function fetchRecordById($id)
