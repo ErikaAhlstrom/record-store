@@ -27,14 +27,16 @@ class RegisterController
 
     private function registration()
     {
+        $firstName = $this->sanitize($_POST['firstName']);
+        $lastName = $this->sanitize($_POST['lastName']);
         $email = $this->sanitize($_POST['email']);
         $phone = $this->sanitize($_POST['phone']);
         $password = $this->sanitize($_POST['password']);
         $password = password_hash($password, PASSWORD_DEFAULT);
         try {
-            $this->model->registerCustomer($email, $phone, $password);
+            $this->model->registerCustomer($firstName, $lastName, $email, $phone, $password);
             $destination = URLROOT;
-            header("Location: $destination");
+            header("Location: $destination/login");
             die();
         } catch (Exception $e) {
             echo $e->getMessage();

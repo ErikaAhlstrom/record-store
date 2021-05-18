@@ -4,7 +4,7 @@
 
           <div class="container">
             <!-- Skivor Section Heading-->
-            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Skivor</h2>
+            <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Records</h2>
             <!-- Icon Divider-->
             <div class="divider-custom">
               <div class="divider-custom-line"></div>

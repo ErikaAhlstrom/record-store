@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 18, 2021 at 08:13 AM
+-- Generation Time: May 18, 2021 at 12:56 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -105,7 +105,7 @@ CREATE TABLE `customers` (
   `phone_number` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
   `email` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
   `timestamp` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
-  `password` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+  `password` varchar(200) COLLATE utf8_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
@@ -116,7 +116,10 @@ INSERT INTO `customers` (`id_customer`, `firstName`, `lastName`, `phone_number`,
 (3, 'Erika', 'Ahlström', '0701234567', 'erika@example.se', '2021-05-18 07:53:12', 'erikahejhej'),
 (4, 'Marta', 'Pettersson', '0701112233', 'marta@example.com', '2021-05-18 07:53:41', 'martahejhej'),
 (5, 'Kicki', 'Halmos', '0705554455', 'kicki@example.se', '2021-05-18 07:54:36', 'kickihejhej'),
-(6, 'Gustaf', 'Johnsson', '0707788999', 'gustaf@example.com', '2021-05-18 07:55:16', 'gustafhejhej');
+(6, 'Gustaf', 'Johnsson', '0707788999', 'gustaf@example.com', '2021-05-18 07:55:16', 'gustafhejhej'),
+(7, 'Kalle', 'Stropp', '24524524525', 'kalle@stropp.se', '2021-05-18 12:49:32', '$2y$10$JeRcn4JQzwS6Z8A/4zGTg.4VpTTST0aTrWlgWr59nWltU1Q816W6S'),
+(8, 'Grodan', 'Boll', '930459340958', 'grodan@info.se', '2021-05-18 12:50:27', '$2y$10$pC/Q2ftoinJq5TZiLYirMekj3zKZHePiTt/Nb2FScxQFJlTcQsJgu'),
+(9, 'Lasse', 'Åberg', '9384059843058', 'lasse@lasse.se', '2021-05-18 12:53:38', '$2y$10$3dhvTS8h7YNH/oxVd90YruVnxONp1/c3P.qpdFhNNozApiggSDGGm');
 
 -- --------------------------------------------------------
 
@@ -391,7 +394,7 @@ ALTER TABLE `artists`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `genres`

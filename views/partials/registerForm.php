@@ -15,6 +15,20 @@
                 <form method="POST" action="#" novalidate="novalidate">
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            <label>First Name</label>
+                            <input name="firstName" class="form-control" id="firstName" type="firstName" placeholder="First Name" required="required" data-validation-required-message="Please enter your first name." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
+                            <label>Last Name</label>
+                            <input name="lastName" class="form-control" id="lastName" type="lastName" placeholder="Last Name" required="required" data-validation-required-message="Please enter your last name." />
+                            <p class="help-block text-danger"></p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Email</label>
                             <input name="email" class="form-control" id="email" type="email" placeholder="Email" required="required" data-validation-required-message="Please enter your email address." />
                             <p class="help-block text-danger"></p>
