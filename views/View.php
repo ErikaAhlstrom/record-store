@@ -55,7 +55,7 @@ class View
                                       <div class="container">
                                           <div class="row justify-content-center">
                                               <div class="col-lg-8">
-                                                  <!-- Portfolio Modal - Title-->
+                                                  <!-- Record Modal - Title-->
                                                   <h2 class="portfolio-modal-title text-secondary text-uppercase mb-0" id="portfolioModal1Label">$record[title]</h2>
                                                   <!-- Icon Divider-->
                                                   <div class="divider-custom">
@@ -63,21 +63,23 @@ class View
                                                       <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
                                                       <div class="divider-custom-line"></div>
                                                   </div>
-                                                  <!-- Portfolio Modal - Image-->
+                                                  <!-- Record Modal - Image-->
                                                   <div class="row">
-                                                    <img class="img-fluid rounded mb-5 col-6" src="$record[cover]" alt="the cover of $record[title]" />
+                                                    <!-- <div style="padding-bottom:100%; overflow:hidden; position:relative"> -->
+                                                    <img class="mb-5 col-6" id="record-cover" style="width: 300px;height: 300px;object-fit: cover;" src="$record[cover]" alt="the cover of $record[title]" />
+                                                    <!-- </div> -->
                                                     <div class="col-6">
                                                       <h3>$record[name]</h3>
-                                                      <p class="mb-5">$record[description]</p>
-                                                      <p class="mb-5">$record[price]:-</p>
-                                                      <p class="mb-5">$record[year_released]</p>
+                                                      <p class="mb-3 text-muted"><small>RELEASE YEAR $record[year_released]</small></p>
+                                                      <p class="mb-3">$record[description]</p>
+                                                      <h3 class="mb-3 text-muted">€$record[price]</h3>
                                                       <form action="#" method="POST">
-                                                      <input type="submit" value="hejsan"/>
+                                                      <input class="mb-5 btn btn-primary btn-lg" type="submit" value="Add to cart"/>
                                                       </form>
                                                     </div>
                                                   </div>
-                                                  <!-- Portfolio Modal - Text-->
-                                                  <button class="btn btn-primary" data-dismiss="modal">
+                                                  <!-- Record Modal - Text-->
+                                                  <button class="btn btn-secondary" data-dismiss="modal">
                                                       <i class="fas fa-times fa-fw"></i>
                                                       Close Window
                                                   </button>

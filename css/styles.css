@@ -10279,3 +10279,10 @@ form .row:first-child .floating-label-form-group {
  .sidebar {
    
  }
+
+ #record-cover {
+	width: 300px !important;
+	height: 300px !important;
+	object-fit: cover !important;
+  /* display: flex; */
+}
