@@ -3,7 +3,7 @@
     <!-- Masthead Avatar Image-->
     <img class="mx-auto img-fluid masthead-avatar mb-5" src="assets/img/record_player.png" alt="..." />
     <!-- Masthead Heading-->
-    <h1 class="masthead-heading text-uppercase mb-0">Välkommen!</h1>
+    <h1 class="masthead-heading text-uppercase mb-0">Welcome <?= $_SESSION['customer']['firstName'] ?? "" ?>!</h1>
     <!-- Icon Divider-->
     <div class="divider-custom divider-light">
       <div class="divider-custom-line"></div>
@@ -11,6 +11,6 @@
       <div class="divider-custom-line"></div>
     </div>
     <!-- Masthead Subheading-->
-    <p class="masthead-subheading font-weight-light mb-0">Köp dina favoritskivor</p>
+    <p class="masthead-subheading font-weight-light mb-0">Shop your favorite records!</p>
   </div>
 </header>
