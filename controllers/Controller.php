@@ -15,7 +15,6 @@ class Controller
     {
         $this->getHeader("Välkommen");
         $this->getHero();
-        print_r($_SESSION['customer']);
         $this->getAllRecords();
         $this->getRecordsEnd();
         $this->getFooter();
