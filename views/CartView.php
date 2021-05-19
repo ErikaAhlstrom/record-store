@@ -20,12 +20,12 @@ class CartView
     {
         $url = URLROOT;
 
-        $html = <<<HTML
+        $cartCard = <<<HTML
             
-            <div class="card mb-3" style="max-width: 680px;">
+            <div class="card mb-3" style="max-width: 720px;">
                 <div class="row g-0">
-                    <div class="col-md-5">
-                        <img class="img-fluid" src=$url/$cart[cover] alt="">
+                    <div style="object-fit: cover;" class="col-md-5">
+                        <img  class="img-fluid" src=$url/$cart[cover] alt="">
                     </div>
                     <div class="col-md-7">
                         <div class="card-body">
@@ -48,18 +48,30 @@ class CartView
 
         HTML;
 
-        echo $html;
+        echo $cartCard;
     }
 
 
 
     public function viewCartPage($cart)
     {
-        // Tomt form som triggar ett köp
-        // 
-        $this->viewOrderForm();
+        $cartBodyStart = <<<HTML
+        <div class="container masthead">
+        <div class="row">
+        HTML;
+        echo $cartBodyStart;
+
+        // Vänster div
         $this->viewCart($cart);
-        
+
+        // Höger div
+        $this->viewOrderForm();
+
+        $cartBodyEnd = <<<HTML
+        </div>
+        </div>
+        HTML;
+        echo $cartBodyEnd;
     }
 
     // Detta är det som läggs till i en order
@@ -67,15 +79,15 @@ class CartView
     {
 
         $html = <<<HTML
-                <div class="col-md-6">
+                <div class="card mb-3 pt-3 col-md-4">
                     <h2>Total</h2>
                     <form action="#" method="post">
 
                         <!-- Skicka köp form till annan sida? -->
                         <input type="submit" 
                                 name="order"
-                                class="form-control my-2 btn btn-lg btn-outline-success" 
-                                value="Send Order">
+                                class="form-control btn-lg btn-primary" 
+                                value="Save order">
                     </form>
                 </div>
 
@@ -87,11 +99,20 @@ class CartView
     }
 
     public function viewCart($carts) {
-        
+        $cartCardsStart = <<<HTML
+        <div class="col-md-8">
+        HTML;
+        echo $cartCardsStart;
+
         foreach ($carts as $cart) {
             $this->viewOneCart($cart);
-            // var_dump($cart);
+            
         }
+        $cartCardsEnd = <<<HTML
+        </div>
+        HTML;
+        echo $cartCardsEnd;
+        // lite stängningsdivar
     }
 
 /*     public function viewConfirmMessage($customer, $lastInsertId)
