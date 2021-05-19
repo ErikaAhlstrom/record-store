@@ -35,4 +35,20 @@ class AdminModel
         );
         return $records;
     }
+
+    public function fetchAllOrders()
+    {
+        $records = $this->db->select("SELECT * FROM orders");
+        return $records;
+    }
+    public function fetchOrderById($id)
+    {
+        $statement = "SELECT orders.id_order, records.title, order_details.amount FROM orders 
+        JOIN order_details ON order_details.orders_id_order = orders.id_order 
+        JOIN records ON records.id_record = order_details.records_id_record 
+        WHERE orders.id_order = :id";
+        $parameters = array(":id" => $id);
+        $orders = $this->db->select($statement, $parameters);
+        return $orders;
+    }
 }

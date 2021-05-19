@@ -37,7 +37,8 @@ class AdminController
                 break;
 
             case "orders":
-
+                $orders = $this->getAllOrders();
+                $this->view->viewAllOrders($orders);
                 break;
             case "customers":
 
@@ -61,6 +62,11 @@ class AdminController
     private function getHeader($title)
     {
         $this->view->viewHeader($title);
+    }
+
+    private function getAllOrders()
+    {
+        return $this->model->fetchAllOrders();
     }
 
     private function getAllProducts()
