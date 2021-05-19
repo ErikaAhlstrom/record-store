@@ -22,12 +22,12 @@ class CartView
 
         $cartCard = <<<HTML
             
-            <div class="card mb-3" style="max-width: 720px;">
+            <div class="card mb-3" style="max-width: 600px;">
                 <div class="row g-0">
-                    <div style="object-fit: cover;" class="col-md-5">
-                        <img  class="img-fluid" src=$url/$cart[cover] alt="">
+                    <div class="mx-auto col-md-6">
+                        <img  style=" max-width: 300px;" class="img-fluid" src=$url/$cart[cover] alt="">
                     </div>
-                    <div class="col-md-7">
+                    <div class="col-md-6">
                         <div class="card-body">
                             <h5 class="card-title">$cart[title]</h5>
                             <p class="fw-bolder card-text">$cart[name]</p>

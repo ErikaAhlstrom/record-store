@@ -36,21 +36,40 @@ class CartModel
     }
 
 
-    public function saveOrder($customer_id, $record_id)
+    public function saveOrder($customer_id, $carts)
     {
-        $customer = $this->fetchCustomerById($customer_id);
-        if (!$customer) return false;
-
-        $statement = "INSERT INTO orders (id_customer, id_record)  
-                      VALUES (:id_customer, :id_record)";
-        $parameters = array(
-            ':id_customer' => $customer_id,
-            ':id_record' => $record_id
-        );
+        // Skapa en order
+        $statement = "INSERT INTO orders (id_customer, sent)  
+                      VALUES (:id_customer, :sent)";            
+        $parameters = array(':id_customer' => $customer_id, ':sent' => 0);
 
         // Ordernummer
         $lastInsertId = $this->db->insert($statement, $parameters);
+        echo $lastInsertId;
 
-        return array('customer' => $customer, 'lastInsertId' => $lastInsertId);
+        // Skapa order_details
+
+        // Samla alla confirmed databas interaktioner för att se att alla order details rader kunde läggas till.
+        $confirmed = Array();
+        foreach ($carts as $cart) {
+            
+            $statement = "INSERT INTO order_details 
+            (orders_id_order, records_id_record, amount)  
+            VALUES (:orders_id_order, :records_id_record, :amount)";
+            $parameters = array(
+                ':orders_id_order' => $lastInsertId,
+                ':records_id_record' => $cart['id_record'],
+                ':amount' => $cart['amount']);
+            $lastInsertDetailId = $this->db->insert($statement, $parameters);
+            // Kolla om vi fick tillbaka id, lägg till i $confirmed array
+            if($lastInsertDetailId) {
+                array_push($confirmed, $lastInsertDetailId);
+            }           
+        }
+        // order_detailsnummer
+        if(count($confirmed) == count($carts)) {
+            return $lastInsertId;
+        }
+        else return null;
     }
 }

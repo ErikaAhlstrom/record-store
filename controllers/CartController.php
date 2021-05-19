@@ -25,7 +25,7 @@ class CartController
             $this->view->viewCartPage($cart);
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST')
-            $this->processOrderForm();
+            $this->processOrderForm($cart);
 
         $this->getFooter();
     }
@@ -40,19 +40,20 @@ class CartController
         $this->view->viewFooter();
     }
 
-    private function processOrderForm()
+    private function processOrderForm($cart)
     {
-        $record_id    = $this->sanitize($_POST['record_id']);
-        $customer_id = $this->sanitize($_POST['customer_id']);
-        $confirm = $this->model->saveOrder($customer_id, $record_id);
+        // $record_id = $this->sanitize($_POST['record_id']);
+        $customer_id = $_SESSION['customer']['id_customer'];
+        $confirm = $this->model->saveOrder($customer_id, $cart);
+        echo $confirm;
 
-        if ($confirm) {
+/*         if ($confirm) {
             $customer = $confirm['customer'];
             $lastInsertId = $confirm['lastInsertId'];
             $this->view->viewConfirmMessage($customer, $lastInsertId);
         } else {
             $this->view->viewErrorMessage($customer_id);
-        }
+        } */
     }
 
     /**
