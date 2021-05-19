@@ -17,9 +17,7 @@ class CartController
 
         // Hämta id från SESSION
         $customer_id = $_SESSION['customer']['id_customer'];
-        //$id = $this->sanitize($_GET['id']);
         $cart = $this->model->fetchCartByCustomerId($customer_id);
-        // print_r($cart);
 
         if ($cart)
             $this->view->viewCartPage($cart);
@@ -42,18 +40,17 @@ class CartController
 
     private function processOrderForm($cart)
     {
-        // $record_id = $this->sanitize($_POST['record_id']);
         $customer_id = $_SESSION['customer']['id_customer'];
         $confirm = $this->model->saveOrder($customer_id, $cart);
-        echo $confirm;
 
-/*         if ($confirm) {
-            $customer = $confirm['customer'];
+        if ($confirm) {
+            /*          $customer = $confirm['customer'];
             $lastInsertId = $confirm['lastInsertId'];
-            $this->view->viewConfirmMessage($customer, $lastInsertId);
+            $this->view->viewConfirmMessage($customer, $lastInsertId); */
+            $this->model->deleteCarts($customer_id);
         } else {
-            $this->view->viewErrorMessage($customer_id);
-        } */
+            /* $this->view->viewErrorMessage($customer_id); */
+        }
     }
 
     /**

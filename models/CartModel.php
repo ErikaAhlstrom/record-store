@@ -18,15 +18,6 @@ class CartModel
         return $cart ?? false;
     }
 
-    // public function fetchRecordById($id)
-    // {
-    //     $statement = "SELECT * FROM records WHERE id_record = :id";
-    //     $params = array(":id" => $id);
-    //     $record = $this->db->select($statement, $params);
-    //     //print_r($record);
-    //     return $record[0] ?? false;
-    // }
-
     public function fetchCustomerById($id)
     {
         $statement = "SELECT * FROM customers WHERE id_customer=:id";
@@ -45,12 +36,9 @@ class CartModel
 
         // Ordernummer
         $lastInsertId = $this->db->insert($statement, $parameters);
-        echo $lastInsertId;
+        
 
         // Skapa order_details
-
-        // Samla alla confirmed databas interaktioner för att se att alla order details rader kunde läggas till.
-        $confirmed = Array();
         foreach ($carts as $cart) {
             
             $statement = "INSERT INTO order_details 
@@ -61,15 +49,19 @@ class CartModel
                 ':records_id_record' => $cart['id_record'],
                 ':amount' => $cart['amount']);
             $lastInsertDetailId = $this->db->insert($statement, $parameters);
-            // Kolla om vi fick tillbaka id, lägg till i $confirmed array
-            if($lastInsertDetailId) {
-                array_push($confirmed, $lastInsertDetailId);
-            }           
+            echo $lastInsertDetailId;
+            // Kolla om vi fick tillbaka id, lägg till i $confirmed array           
         }
-        // order_detailsnummer
-        if(count($confirmed) == count($carts)) {
-            return $lastInsertId;
-        }
-        else return null;
+        
+        return $lastInsertId;
+    }
+
+    public function deleteCarts($customer_id)
+    {
+        $statement = "DELETE FROM carts WHERE id_customer = :customer_id";
+        $parameters = array(
+            ':customer_id' => $customer_id
+        );
+        $this->db->delete($statement, $parameters);
     }
 }
