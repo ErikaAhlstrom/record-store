@@ -15,8 +15,10 @@ class CartController
     {
         $this->getHeader("Cart");
 
-        $id = $this->sanitize($_GET['id']);
-        $cart = $this->model->fetchCartById($id);
+        // Hämta id från SESSION
+        $customer_id = $_SESSION['customer']['id_customer'];
+        //$id = $this->sanitize($_GET['id']);
+        $cart = $this->model->fetchCartByCustomerId($customer_id);
         // print_r($cart);
 
         if ($cart)
