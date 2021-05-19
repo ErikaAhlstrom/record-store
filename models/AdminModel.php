@@ -52,4 +52,10 @@ class AdminModel
         $order = $this->db->select($statement, $parameters);
         return $order;
     }
+
+    public function setToSent($id) {
+        $statement = "UPDATE orders SET sent = 1 WHERE id_order = :id";
+        $parameters = array(":id" => $id);
+        $this->db->update($statement, $parameters);
+    }
 }

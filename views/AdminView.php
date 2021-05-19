@@ -16,7 +16,7 @@ class AdminView
     {
         include_once("views/partials/loginAdminForm.php");
     }
-
+    
     public function viewTableRow($record)
     {
         $tableRow = <<<HTML
@@ -25,6 +25,41 @@ class AdminView
             <td>$record[title]</td>
             <td><a class="btn btn-primary">Update</a></td>
             <td><a class="btn btn-danger">Delete</a></td>
+            </tr>
+        HTML;
+        
+        echo $tableRow;
+    }
+
+    public function viewTableRowOrders($order)
+    {
+        $destination = URLROOT . "admin";
+        $tableRow = <<<HTML
+            <tr>
+            <th scope="row">$order[id_order]</th>
+            <td>
+                <a class="btn btn-primary" href="$destination/orders/$order[id_order]">View</a>
+            </td>
+            <!-- <td><a class="btn btn-primary">Update</a></td>
+            <td><a class="btn btn-danger">Delete</a></td> -->
+            </tr>
+        HTML;
+        
+        echo $tableRow;
+    }
+    
+    public function viewTableRowOrderDetails($order)
+    {
+        $destination = URLROOT;
+        $tableRow = <<<HTML
+            <tr>
+            <th scope="row">$order[id_record]</th>
+            <td>
+                $order[title]    
+            </td>
+            <td>
+                $order[amount]
+            </td>
             </tr>
         HTML;
 
@@ -61,44 +96,6 @@ class AdminView
         echo $tableEnd;
     }
 
-    public function viewTableRowOrders($order)
-    {
-        $destination = URLROOT . "admin";
-        $tableRow = <<<HTML
-            <tr>
-            <th scope="row">$order[id_order]</th>
-            <td>
-                <input type="checkbox" name=$order[id_order]/>
-            </td>
-            <td>
-                <a class="btn btn-primary" href="$destination/orders/$order[id_order]">View</a>
-            </td>
-            <!-- <td><a class="btn btn-primary">Update</a></td>
-            <td><a class="btn btn-danger">Delete</a></td> -->
-            </tr>
-        HTML;
-
-        echo $tableRow;
-    }
-
-    public function viewTableRowOrderDetails($order)
-    {
-        $destination = URLROOT;
-        $tableRow = <<<HTML
-            <tr>
-            <th scope="row">$order[id_record]</th>
-            <td>
-                $order[title]    
-            </td>
-            <td>
-                $order[amount]
-            </td>
-        
-            </tr>
-        HTML;
-
-        echo $tableRow;
-    }
 
     public function viewAllOrders($orders)
     {
@@ -109,7 +106,7 @@ class AdminView
                 <thead>
                     <tr>
                     <th scope="col">ORDER_ID</th>
-                    <th scope="col">SENT</th>
+                    <th scope="col"></th>
                     <!-- <th scope="col">ADMIN</th> -->
                     <!-- <th scope="col"></th> -->
                     </tr>
@@ -132,6 +129,7 @@ class AdminView
 
     public function viewOrderDetails($order)
     {
+        echo "<form action='#' method='POST'>";
         $idOrder = $order[0];
 
         $tableStart = <<<HTML
@@ -143,7 +141,7 @@ class AdminView
                     <th scope="col">RECORD_ID</th>
                     <th scope="col">RECORD</th>
                     <th scope="col">AMOUNT</th>
-                    </tr>
+                    
                 </thead>
                 <tbody>
         HTML;
@@ -154,10 +152,19 @@ class AdminView
         }
 
         $tableEnd = <<<HTML
+                <tr>
+                    <td scope="col">
+                        SENT <input type="checkbox" name="$idOrder[id_order]"/>
+                    </td>
+                    <td scope="col">
+                        <input class='btn btn-primary col-1 offset-10' type='submit' value='save'/>
+                    </td>
+                </tr>
             </tbody>
             </table>
         </div>
         HTML;
         echo $tableEnd;
+        echo "</form>";
     }
 }

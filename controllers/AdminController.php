@@ -11,15 +11,15 @@ class AdminController
         $this->view = $view;
     }
 
-    public function admin($param, $param2)
+    public function admin($param, $id)
     {
         $this->getHeader("Admin");
+        $destination = URLROOT;
 
         switch ($param) {
             case "":
                 //LOGIN eller PRODUCTS om Admin finns i session
                 if (isset($_SESSION["admin"])) {
-                    $destination = URLROOT;
                     header("Location: $destination" . "admin/products");
                     die();
                 }
@@ -38,16 +38,19 @@ class AdminController
 
             case "orders":
                 
-                if($param2) {
-                    if(is_numeric($param2)) {
-                        $order = $this->getOrderById($param2);
+                if($id) {
+                    if(is_numeric($id)) {
+                        $order = $this->getOrderById($id);
                         $this->view->viewOrderDetails($order);
+                        if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                            if(isset($_POST[$id])) $this->setToSent($id);
+                            header("Location: " . $destination . "admin/orders");
+                        }
                     } 
                 }else {
                     $orders = $this->getAllOrders();
                     $this->view->viewAllOrders($orders);
                 }
-
 
                 break;       
 
@@ -69,6 +72,11 @@ class AdminController
         // om admin finns skapa session för admin -> då sker en redirect till admin/records
 
         $this->getFooter();
+    }
+
+    private function setToSent($id) 
+    {
+        $this->model->setToSent($id);
     }
 
     private function getHeader($title)
