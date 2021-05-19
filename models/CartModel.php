@@ -11,10 +11,17 @@ class CartModel
 
     public function fetchCartById($id)
     {
-        $statement = "SELECT * FROM carts WHERE id_customer = :id";
+        $statement = "SELECT * FROM carts 
+                      LEFT JOIN records 
+                      ON records.id_record = carts.id_record 
+                      LEFT JOIN records_has_artists 
+                      ON records_has_artists.id_record = records.id_record
+                      LEFT JOIN artists 
+                      ON artists.id_artist = records_has_artists.id_artist 
+                      WHERE id_customer = :id
+                      ";
         $params = array(":id" => $id);
         $cart = $this->db->select($statement, $params);
-        //print_r($record);
         return $cart ?? false;
     }
 
