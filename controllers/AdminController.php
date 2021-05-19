@@ -11,7 +11,7 @@ class AdminController
         $this->view = $view;
     }
 
-    public function admin($param)
+    public function admin($param, $param2)
     {
         $this->getHeader("Admin");
 
@@ -37,9 +37,21 @@ class AdminController
                 break;
 
             case "orders":
-                $orders = $this->getAllOrders();
-                $this->view->viewAllOrders($orders);
-                break;
+                
+                if($param2) {
+                    if(is_numeric($param2)) {
+                        $order = $this->getOrderById($param2);
+                        $this->view->viewOrderDetails($order);
+                    } 
+                }else {
+                    $orders = $this->getAllOrders();
+                    $this->view->viewAllOrders($orders);
+                }
+
+
+                break;       
+
+                
             case "customers":
 
                 break;
@@ -72,6 +84,11 @@ class AdminController
     private function getAllProducts()
     {
         return $this->model->fetchAllRecords();
+    }
+
+    private function getOrderById($id)
+    {
+        return $this->model->fetchOrderById($id);
     }
 
     private function getFooter()
