@@ -8,18 +8,11 @@ class CartModel
     {
         $this->db = $database;
     }
-
-    public function fetchCartById($id)
+    // Hämtar cart via custumor id från SESSION
+    public function fetchCartByCustomerId($id)
     {
-        $statement = "SELECT * FROM carts 
-                      LEFT JOIN records 
-                      ON records.id_record = carts.id_record 
-                      LEFT JOIN records_has_artists 
-                      ON records_has_artists.id_record = records.id_record
-                      LEFT JOIN artists 
-                      ON artists.id_artist = records_has_artists.id_artist 
-                      WHERE id_customer = :id
-                      ";
+        $statement = "SELECT carts.amount, carts.id_customer, records.title, records.price, records.id_record, records.cover, GROUP_CONCAT(artists.name SEPARATOR ', ')AS name FROM carts LEFT JOIN records ON records.id_record = carts.id_record LEFT JOIN records_has_artists ON records_has_artists.id_record = records.id_record LEFT JOIN artists ON artists.id_artist = records_has_artists.id_artist WHERE carts.id_customer = $id GROUP BY carts.id_record
+        ";
         $params = array(":id" => $id);
         $cart = $this->db->select($statement, $params);
         return $cart ?? false;
