@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 18, 2021 at 12:56 PM
+-- Generation Time: May 19, 2021 at 08:59 AM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -23,7 +23,7 @@ SET time_zone = "+00:00";
 CREATE TABLE `admin` (
   `id_admin` int(11) NOT NULL,
   `username` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL,
-  `password` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
+  `password` varchar(200) COLLATE utf8_swedish_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
 
 --
@@ -31,7 +31,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id_admin`, `username`, `password`) VALUES
-(1, 'admin', 'adminhejhej');
+(1, 'admin', '$2y$10$6DU8DfYDG3v/TMWwDc3n8uHb6u7aVl4FzX813gjrHhX1hUlS6oE/O');
 
 -- --------------------------------------------------------
 
