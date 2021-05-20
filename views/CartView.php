@@ -12,41 +12,49 @@ class CartView
         include_once("views/partials/footer.php");
     }
 
-    public function viewNoCart()
+    // CART START AND END HTML
+    private $cartBodyStart = <<<HTML
+    <div class="container masthead">
+    <div class="row">
+    HTML;
+
+    private $cartBodyEnd = <<<HTML
+        </div>
+        </div>
+        HTML;
+
+    public function viewEmptyCart()
     {
         $url = URLROOT;
 
+        echo $this->cartBodyStart;
+
         $noCartDiv = <<<HTML
-        <div class="card mb-3" style="max-width: 600px;">
-                <div class="row g-0">
-                    <div class="mx-auto col-md-6">
-                        <img  style=" max-width: 300px;" class="img-fluid" src=$url/ alt="">
+        <div class="col-10">
+        <div class="card mb-3">
+                <div class="row">
+                    <div class="mx-auto col-md-4">
+                        <img class="img-fluid" src=$url/assets/img/broken-vinyl.jpeg alt="broken vinyl">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         <div class="card-body">
-                            <h5 class="card-title">Your bag is empty</h5>
-                            <a href="$url" class="fw-bolder card-text">Let's shop!</a>
-                            <hr> 
+                            <h3 class="card-title mb-4">Your bag is empty</h3>
+                            <a href="$url" class="btn btn-primary btn-lg">Let's shop! <i id="arrow-icon" class='bx bx-right-arrow-alt'></i></a>
                         </div>
                     </div>
                 </div>
-            </div>  <!-- col -->
+         </div>  <!-- col -->
+         </div>
         HTML;
 
         echo $noCartDiv;
+
+        echo $this->cartBodyEnd;
     }
 
     public function viewCartPage($cart, $totalSum)
     {
-        $cartBodyStart = <<<HTML
-        <div class="container masthead">
-        <div class="row">
-        HTML;
-        echo $cartBodyStart;
-
-        if (!$cart) {
-            $this->viewNoCart();
-        }
+        echo $this->cartBodyStart;
 
         // Cart items
         $this->viewCart($cart);
@@ -54,11 +62,7 @@ class CartView
         // Total and Order form
         $this->viewOrderForm($totalSum);
 
-        $cartBodyEnd = <<<HTML
-        </div>
-        </div>
-        HTML;
-        echo $cartBodyEnd;
+        echo $this->cartBodyEnd;
     }
 
     public function viewCart($carts)

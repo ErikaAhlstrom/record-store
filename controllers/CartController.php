@@ -22,7 +22,7 @@ class CartController
             $totalSum = $this->calcTotal($cart);
             $this->view->viewCartPage($cart, $totalSum);
         } else {
-            $this->view->viewCartPage();
+            $this->view->viewEmptyCart();
         }
 
         // ORDER
