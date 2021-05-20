@@ -64,12 +64,22 @@ class CartModel
         return $lastInsertId;
     }
 
-    public function deleteCarts($customer_id)
+    public function deleteCart($customer_id)
     {
         $statement = "DELETE FROM carts WHERE id_customer = :customer_id";
         $parameters = array(
             ':customer_id' => $customer_id
         );
         $this->db->delete($statement, $parameters);
+    }
+
+    public function deleteCartDetail($record_id, $customer_id)
+    {
+        $statement = "DELETE FROM carts WHERE id_customer = :customer_id AND id_record = :record_id";
+        $parameters = array(
+            ':customer_id' => $customer_id,
+            ':record_id' => $record_id
+        );
+        return $this->db->delete($statement, $parameters);
     }
 }

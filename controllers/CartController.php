@@ -15,19 +15,24 @@ class CartController
     {
         $this->getHeader("Cart");
 
-        // Hämta id från SESSION
         $customer_id = $_SESSION['customer']['id_customer'];
         $cart = $this->model->fetchCartByCustomerId($customer_id);
 
         if ($cart) {
             $totalSum = $this->calcTotal($cart);
             $this->view->viewCartPage($cart, $totalSum);
+        } else {
+            $this->view->viewCartPage();
         }
 
-        // Fixa så den bara reagerar på order post request
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['order'])
+        // ORDER
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order']))
             $this->processOrderForm($cart);
         // Ny view med success meddelande och orderbekräftelse
+
+        // REMOVE ITEM FROM CART
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove']))
+            $this->removeItemFromCart();
 
         $this->getFooter();
     }
@@ -60,10 +65,18 @@ class CartController
             /*          $customer = $confirm['customer'];
             $lastInsertId = $confirm['lastInsertId'];
             $this->view->viewConfirmMessage($customer, $lastInsertId); */
-            $this->model->deleteCarts($customer_id);
+            $this->model->deleteCart($customer_id);
         } else {
             /* $this->view->viewErrorMessage($customer_id); */
         }
+    }
+
+    private function removeItemFromCart()
+    {
+        $record_id = $this->sanitize($_POST["record_id"]);
+        $customer_id = $_SESSION['customer']['id_customer'];
+
+        return $this->model->deleteCartDetail($record_id, $customer_id);
     }
 
     /**

@@ -12,6 +12,30 @@ class CartView
         include_once("views/partials/footer.php");
     }
 
+    public function viewNoCart()
+    {
+        $url = URLROOT;
+
+        $noCartDiv = <<<HTML
+        <div class="card mb-3" style="max-width: 600px;">
+                <div class="row g-0">
+                    <div class="mx-auto col-md-6">
+                        <img  style=" max-width: 300px;" class="img-fluid" src=$url/ alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">Your bag is empty</h5>
+                            <a href="$url" class="fw-bolder card-text">Let's shop!</a>
+                            <hr> 
+                        </div>
+                    </div>
+                </div>
+            </div>  <!-- col -->
+        HTML;
+
+        echo $noCartDiv;
+    }
+
     public function viewCartPage($cart, $totalSum)
     {
         $cartBodyStart = <<<HTML
@@ -19,6 +43,10 @@ class CartView
         <div class="row">
         HTML;
         echo $cartBodyStart;
+
+        if (!$cart) {
+            $this->viewNoCart();
+        }
 
         // Cart items
         $this->viewCart($cart);
