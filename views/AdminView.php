@@ -48,7 +48,7 @@ class AdminView
                $sent
             </td>
             <td>
-                <a class="btn btn-primary" href="$destination/orders/$order[id_order]">View</a>
+                <a class="btn btn-primary" href="$destination/orders/$order[id_order]">View Details</a>
             </td>
             </tr>
         HTML;

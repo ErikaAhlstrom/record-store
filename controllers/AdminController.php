@@ -4,53 +4,44 @@ class AdminController
 {
     private $model;
     private $view;
+    private $destination;
+    private $id;
 
     public function __construct($model, $view)
     {
         $this->model = $model;
         $this->view = $view;
+        $this->destination = URLROOT;
     }
 
     public function admin($param, $id)
     {
+        $this->setId($id);
         $this->getHeader("Admin");
-        $destination = URLROOT;
 
         switch ($param) {
             case "":
                 //LOGIN eller PRODUCTS om Admin finns i session
                 if (isset($_SESSION["admin"])) {
-                    header("Location: $destination" . "admin/products");
+                    header("Location: $this->destination" . "admin/products");
                     die();
                 }
 
                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $this->login();
                 }
+
                 $this->getLoginForm();
 
                 break;
-
             case "products":
                 $records = $this->getAllProducts();
                 $this->view->viewAllProducts($records);
+
                 break;
-
             case "orders":
-                $id = is_numeric($id) ? $id : false;
-
-                if (!$id) {
-                    $orders = $this->getAllOrders();
-                    $this->view->viewAllOrders($orders);
-                } else {
-                    $order = $this->getOrderById($id);
-                    $this->view->viewOrderDetails($order);
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $this->setToSent($id);
-                        header("Location: " . $destination . "admin/orders");
-                        die();
-                    }
-                }
+                if ($id) $this->orderDetails();
+                else $this->orders();
 
                 break;
             case "customers":
@@ -72,9 +63,31 @@ class AdminController
         $this->getFooter();
     }
 
-    private function setToSent($id)
+    private function setId($id)
     {
-        $this->model->setToSent($id);
+        $this->id = is_numeric($id) ? $id : false;
+    }
+
+    private function orderDetails()
+    {
+        $order = $this->getOrderById();
+        $this->view->viewOrderDetails($order);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->setToSent();
+            header("Location: " . $this->destination . "admin/orders");
+            die();
+        }
+    }
+
+    private function orders()
+    {
+        $orders = $this->getAllOrders();
+        $this->view->viewAllOrders($orders);
+    }
+
+    private function setToSent()
+    {
+        $this->model->setToSent($this->id);
     }
 
     private function getHeader($title)
@@ -92,9 +105,9 @@ class AdminController
         return $this->model->fetchAllRecords();
     }
 
-    private function getOrderById($id)
+    private function getOrderById()
     {
-        return $this->model->fetchOrderById($id);
+        return $this->model->fetchOrderById($this->id);
     }
 
     private function getFooter()
@@ -114,8 +127,7 @@ class AdminController
 
         try {
             $_SESSION["admin"] = $this->model->loginAdmin($username, $password);
-            $destination = URLROOT;
-            header("Location: $destination" . "admin/products");
+            header("Location: $this->destination" . "admin/products");
             die();
         } catch (Exception $e) {
             $e->getMessage();
