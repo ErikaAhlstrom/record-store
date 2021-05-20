@@ -19,11 +19,12 @@ class AdminView
     
     public function viewTableRow($record)
     {
+        $destination = URLROOT . "admin/products/" . $record['id_record'];
         $tableRow = <<<HTML
             <tr>
             <th scope="row">$record[id_record]</th>
             <td>$record[title]</td>
-            <td><a class="btn btn-primary">Update</a></td>
+            <td><a class="btn btn-primary" href="$destination">Update</a></td>
             <td><a class="btn btn-danger">Delete</a></td>
             </tr>
         HTML;
@@ -180,5 +181,9 @@ class AdminView
         
 
         echo "</div>";
+    }
+    public function viewProductForm($product, $artists) {
+        $product = $product[0];
+        include_once("views/partials/productForm.php");
     }
 }

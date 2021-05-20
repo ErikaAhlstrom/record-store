@@ -36,6 +36,31 @@ class AdminModel
         return $records;
     }
 
+    public function fetchAllArtists()
+    {
+        $artists = $this->db->select(
+            "SELECT * FROM artists"
+        );
+        return $artists;
+    }
+
+    public function fetchRecordById($id) 
+    {
+        $statement = "SELECT r.title, r.description, r.price, r.year_released, a.id_artist, a.name, g.id_genre, g.genre FROM records r
+        JOIN records_has_artists rha
+        ON r.id_record=rha.id_record 
+        JOIN artists a
+        ON rha.id_artist=a.id_artist
+        JOIN records_has_genres rhg
+        ON r.id_record = rhg.id_record
+        JOIN genres g
+        on rhg.id_genre = g.id_genre
+        WHERE r.id_record = :id";
+        $parameters = array(":id" => $id);
+        $record = $this->db->select($statement, $parameters);
+        return $record;
+    }
+
     public function fetchAllOrders()
     {
         $orders = $this->db->select(

@@ -35,8 +35,8 @@ class AdminController
 
                 break;
             case "products":
-                $records = $this->getAllProducts();
-                $this->view->viewAllProducts($records);
+                if($id) $this->updateProduct();
+                else $this->products();
 
                 break;
             case "orders":
@@ -79,6 +79,19 @@ class AdminController
         }
     }
 
+    private function products() 
+    {
+        $records = $this->getAllProducts();
+        $this->view->viewAllProducts($records);
+    }
+
+    private function updateProduct() 
+    {
+        $product = $this->getProductById();
+        $artists = $this->getAllArtists();
+        $this->getProductForm($product, $artists);
+    }
+
     private function orders()
     {
         $orders = $this->getAllOrders();
@@ -103,6 +116,21 @@ class AdminController
     private function getAllProducts()
     {
         return $this->model->fetchAllRecords();
+    }
+
+    private function getProductById()
+    {
+        return $this->model->fetchRecordById($this->id);
+    }
+
+    private function getAllArtists() 
+    {
+        return $this->model->fetchAllArtists();
+    }
+
+    private function getProductForm($product, $artists)
+    {
+        $this->view->viewProductForm($product, $artists);
     }
 
     private function getOrderById()

@@ -82,7 +82,6 @@ class CartView
                 <div class="card mb-3 pt-3 col-md-4">
                     <h2>Total</h2>
                     <form action="#" method="post">
-
                         <!-- Skicka köp form till annan sida? -->
                         <input type="submit" 
                                 name="order"
@@ -90,7 +89,6 @@ class CartView
                                 value="Save order">
                     </form>
                 </div>
-
             <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
 
         HTML;
