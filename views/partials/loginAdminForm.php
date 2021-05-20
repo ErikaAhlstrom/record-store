@@ -1,4 +1,4 @@
-<section class="page-section mt-5" id="login">
+<section class="page-section masthead vh-100" id="login">
     <div class="container">
         <!-- Contact Section Heading-->
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Log In</h2>
