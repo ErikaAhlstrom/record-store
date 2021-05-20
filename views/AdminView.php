@@ -34,7 +34,7 @@ class AdminView
     public function viewTableRowOrders($order)
     {
         $destination = URLROOT . "admin";
-        $sent = $order["sent"] ? "<strong class='text-success'>YES</strong>" : "<strong class='text-danger'>NO</strong>";
+        $sent = $order["sent"] ? "<strong class='text-primary'>YES</strong>" : "<strong class='text-danger'>NO</strong>";
         $tableRow = <<<HTML
             <tr>
             <th scope="row">$order[id_order]</th>
