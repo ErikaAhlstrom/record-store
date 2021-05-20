@@ -48,8 +48,8 @@ class CartModel
                 ':orders_id_order' => $lastInsertId,
                 ':records_id_record' => $cart['id_record'],
                 ':amount' => $cart['amount']);
-            $lastInsertDetailId = $this->db->insert($statement, $parameters);
-            echo $lastInsertDetailId;
+            $this->db->insert($statement, $parameters);
+            
             // Kolla om vi fick tillbaka id, lägg till i $confirmed array           
         }
         
