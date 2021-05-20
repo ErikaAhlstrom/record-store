@@ -1,12 +1,14 @@
 <?php
-function navigation() {
+function navigation()
+{
     $destination = URLROOT;
-    if(isset($_SESSION['customer'])) {
+
+    if (isset($_SESSION['customer'])) {
         $listItems = [
             ['path' => 'logout.php', 'title' => 'Log Out'],
             ['path' => 'cart', 'title' => "<i id='cart-icon' class='bx bx-cart'></i>"]
         ];
-    } else if(isset($_SESSION['admin'])){
+    } else if (isset($_SESSION['admin'])) {
         $listItems = [
             ['path' => 'admin/products', 'title' => 'Products'],
             ['path' => 'admin/orders', 'title' => 'Orders'],
@@ -18,7 +20,7 @@ function navigation() {
             ['path' => 'login', 'title' => 'Log in'],
         ];
     }
-    foreach($listItems as $listItem) {
+    foreach ($listItems as $listItem) {
         echo "<li class='nav-item mx-0 mx-lg-1'><a class='nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href=$destination$listItem[path]>$listItem[title]</a></li>";
     }
 }
@@ -57,7 +59,7 @@ function navigation() {
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <?php 
+                    <?php
                     navigation();
                     ?>
                 </ul>
