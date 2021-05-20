@@ -37,24 +37,22 @@ class AdminController
                 break;
 
             case "orders":
-                
-                if($id) {
-                    if(is_numeric($id)) {
-                        $order = $this->getOrderById($id);
-                        $this->view->viewOrderDetails($order);
-                        if($_SERVER['REQUEST_METHOD'] == 'POST') {
-                            if(isset($_POST[$id])) $this->setToSent($id);
-                            header("Location: " . $destination . "admin/orders");
-                        }
-                    } 
-                }else {
+                $id = is_numeric($id) ? $id : false;
+
+                if (!$id) {
                     $orders = $this->getAllOrders();
                     $this->view->viewAllOrders($orders);
+                } else {
+                    $order = $this->getOrderById($id);
+                    $this->view->viewOrderDetails($order);
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $this->setToSent($id);
+                        header("Location: " . $destination . "admin/orders");
+                        die();
+                    }
                 }
 
-                break;       
-
-                
+                break;
             case "customers":
 
                 break;
@@ -74,7 +72,7 @@ class AdminController
         $this->getFooter();
     }
 
-    private function setToSent($id) 
+    private function setToSent($id)
     {
         $this->model->setToSent($id);
     }

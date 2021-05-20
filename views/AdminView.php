@@ -34,14 +34,22 @@ class AdminView
     public function viewTableRowOrders($order)
     {
         $destination = URLROOT . "admin";
+        $sent = $order["sent"] ? "<strong class='text-success'>YES</strong>" : "<strong class='text-danger'>NO</strong>";
         $tableRow = <<<HTML
             <tr>
             <th scope="row">$order[id_order]</th>
             <td>
+                $order[name]
+            </td>
+            <td>
+                $order[timestamp]
+            </td>
+            <td>
+               $sent
+            </td>
+            <td>
                 <a class="btn btn-primary" href="$destination/orders/$order[id_order]">View</a>
             </td>
-            <!-- <td><a class="btn btn-primary">Update</a></td>
-            <td><a class="btn btn-danger">Delete</a></td> -->
             </tr>
         HTML;
         
@@ -100,13 +108,16 @@ class AdminView
     public function viewAllOrders($orders)
     {
         $tableStart = <<<HTML
-        <div class="container masthead">
+        <div class="container masthead vh-100">
             <h2>Orders</h2>
             <table class="table mt-2">
                 <thead>
                     <tr>
                     <th scope="col">ORDER_ID</th>
-                    <th scope="col"></th>
+                    <th scope="col">CUSTOMER</th>
+                    <th scope="col">DATE</th>
+                    <th scope="col">SENT</th>
+                    <th scope="col">ADMIN</th>
                     <!-- <th scope="col">ADMIN</th> -->
                     <!-- <th scope="col"></th> -->
                     </tr>
@@ -129,11 +140,10 @@ class AdminView
 
     public function viewOrderDetails($order)
     {
-        echo "<form action='#' method='POST'>";
         $idOrder = $order[0];
-
+        
         $tableStart = <<<HTML
-        <div class="container masthead">
+        <div class="container masthead vh-100">
             <h2>Order details for order $idOrder[id_order]</h2>
             <table class="table mt-2">
                 <thead>
@@ -146,25 +156,25 @@ class AdminView
                 <tbody>
         HTML;
         echo $tableStart;
-
+        
         foreach ($order as $orderDetails) {
             $this->viewTableRowOrderDetails($orderDetails);
         }
-
+        
         $tableEnd = <<<HTML
-                <tr>
-                    <td scope="col">
-                        SENT <input type="checkbox" name="$idOrder[id_order]"/>
-                    </td>
-                    <td scope="col">
-                        <input class='btn btn-primary col-1 offset-10' type='submit' value='save'/>
-                    </td>
-                </tr>
             </tbody>
             </table>
-        </div>
         HTML;
+
         echo $tableEnd;
-        echo "</form>";
+
+        if(!$idOrder["sent"]) {
+            echo
+            "<form action='#' method='POST'> 
+            <input class='btn btn-primary btn-block' type='submit' value='SEND'/>
+            </form>";
+        }
+
+        echo "</div>";
     }
 }

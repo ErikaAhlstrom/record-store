@@ -1,5 +1,5 @@
  <!-- Copyright Section-->
- <footer class="">
+ <footer>
      <div class="copyright py-4 text-white">
          <div class="container">
              <div class="row">

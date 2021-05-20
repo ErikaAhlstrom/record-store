@@ -38,13 +38,19 @@ class AdminModel
 
     public function fetchAllOrders()
     {
-        $orders = $this->db->select("SELECT * FROM orders");
+        $orders = $this->db->select(
+            "SELECT o.id_order, o.sent, o.timestamp, CONCAT(c.firstname, ' ', c.lastname) AS name 
+            FROM orders o 
+            JOIN customers c 
+            ON o.id_customer = c.id_customer
+            ORDER BY o.sent ASC
+            ");
         return $orders;
     }
 
     public function fetchOrderById($id)
     {
-        $statement = "SELECT orders.id_order, records.title, records.id_record ,order_details.amount FROM orders 
+        $statement = "SELECT orders.id_order, records.title, records.id_record, order_details.amount, orders.sent FROM orders 
         JOIN order_details ON order_details.orders_id_order = orders.id_order 
         JOIN records ON records.id_record = order_details.records_id_record 
         WHERE orders.id_order = :id";
