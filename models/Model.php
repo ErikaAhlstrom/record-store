@@ -14,7 +14,7 @@ class Model
     {
         $records = $this->db->select(
             "SELECT records.title, records.description, records.price, records.id_record, records.cover, records.year_released, 
-            GROUP_CONCAT(artists.name) AS name
+            GROUP_CONCAT(artists.name SEPARATOR ', ') AS name
             FROM records 
             LEFT JOIN records_has_artists ON records_has_artists.id_record = records.id_record 
             LEFT JOIN artists ON artists.id_artist = records_has_artists.id_artist GROUP BY records.id_record
@@ -64,4 +64,6 @@ class Model
 
         return array('customer' => $customer, 'lastInsertId' => $lastInsertId);
     }
+
+
 }

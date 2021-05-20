@@ -20,64 +20,102 @@ class CartView
     {
         $url = URLROOT;
 
-        print_r($cart);
+        $cartCard = <<<HTML
+            
+            <div class="card mb-3" style="max-width: 600px;">
+                <div class="row g-0">
+                    <div class="mx-auto col-md-6">
+                        <img  style=" max-width: 300px;" class="img-fluid" src=$url/$cart[cover] alt="">
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card-body">
+                            <h5 class="card-title">$cart[title]</h5>
+                            <p class="fw-bolder card-text">$cart[name]</p>
+                            <hr>
+                            <h5 class="card-title">$cart[price] €</h5>
+                            <p class="card-text">Amount: $cart[amount] </p>
+                            
+                                <!-- Form som vid submit tar bort detta iten från db -->
+                                <form action="#" method="post">
+                                    <input  hidden name="record_id" value="$cart[id_record]">
+                                    <input class="offset-7 btn btn-secondary" value="Remove" type="submit" name="remove">
+                                </form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>  <!-- col -->
 
-        // $html = <<<HTML
+        HTML;
 
-        //     <div class="col-md-6">
-        //             <div class="card m-1">
-        //                 <img class="card-img-top" src="$url/images/$movie[image]" 
-        //                      alt="$movie[title]">
-        //                 <div class="card-body">
-        //                     <div class="card-title text-center">
-        //                         <h4>$movie[title]</h4>
-        //                         <h5>Pris: $movie[price] kr</h5>
-        //                     </div>
-        //                 </div>
-        //             </div>
-        //     </div>  <!-- col -->
-
-        // HTML;
-
-        // echo $html;
+        echo $cartCard;
     }
 
 
 
     public function viewCartPage($cart)
     {
-        $this->viewOneCart($cart);
-        $this->viewOrderForm($cart);
+        $cartBodyStart = <<<HTML
+        <div class="container masthead">
+        <div class="row">
+        HTML;
+        echo $cartBodyStart;
+
+        // Vänster div
+        $this->viewCart($cart);
+
+        // Höger div
+        $this->viewOrderForm();
+
+        $cartBodyEnd = <<<HTML
+        </div>
+        </div>
+        HTML;
+        echo $cartBodyEnd;
     }
 
-
-    public function viewOrderForm($cart)
+    // Detta är det som läggs till i en order
+    public function viewOrderForm()
     {
 
-        // $html = <<<HTML
+        $html = <<<HTML
+                <div class="card mb-3 pt-3 col-md-4">
+                    <h2>Total</h2>
+                    <form action="#" method="post">
 
-        //     <div class="col-md-6">
+                        <!-- Skicka köp form till annan sida? -->
+                        <input type="submit" 
+                                name="order"
+                                class="form-control btn-lg btn-primary" 
+                                value="Save order">
+                    </form>
+                </div>
 
-        //         <form action="#" method="post">
-        //             <input type="hidden" name="cart_id" 
-        //                     value="$cart[id_cart]">
+            <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
 
-        //             <input type="number" name="customer_id" required 
-        //                     class="form-control form-control-lg my-2" 
-        //                     placeholder="Ange ditt kundnummer">
+        HTML;
 
-        //             <input type="submit" class="form-control my-2 btn btn-lg btn-outline-success" 
-        //                     value="Send Order">
-        //         </form>
-
-        //     <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
-
-        // HTML;
-
-        // echo $html;
+        echo $html;
     }
 
-    public function viewConfirmMessage($customer, $lastInsertId)
+    public function viewCart($carts) {
+        $cartCardsStart = <<<HTML
+        <div class="col-md-8">
+        HTML;
+        echo $cartCardsStart;
+
+        foreach ($carts as $cart) {
+            $this->viewOneCart($cart);
+            
+        }
+        $cartCardsEnd = <<<HTML
+        </div>
+        HTML;
+        echo $cartCardsEnd;
+        // lite stängningsdivar
+    }
+
+/*     public function viewConfirmMessage($customer, $lastInsertId)
     {
         $this->printMessage(
             "<h4>Tack $customer[name]</h4>
@@ -88,9 +126,9 @@ class CartView
             ",
             "success"
         );
-    }
+    } */
 
-    public function viewErrorMessage($customer_id)
+/*     public function viewErrorMessage($customer_id)
     {
         $this->printMessage(
             "<h4>Kundnummer $customer_id finns ej i vårt kundregister!</h4>
@@ -99,7 +137,7 @@ class CartView
             ",
             "warning"
         );
-    }
+    } */
 
     /**
      * En funktion som skriver ut ett felmeddelande
