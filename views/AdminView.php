@@ -141,10 +141,14 @@ class AdminView
     public function viewOrderDetails($order)
     {
         $idOrder = $order[0];
+        $destination = URLROOT . "admin/orders";
         
         $tableStart = <<<HTML
         <div class="container masthead vh-100">
-            <h2>Order details for order $idOrder[id_order]</h2>
+            <div class='d-flex justify-content-between'>
+                <h2>Order details for order $idOrder[id_order]</h2>
+                <a href='$destination' class='btn btn-dark'>Back</a>
+            </div>
             <table class="table mt-2">
                 <thead>
                     <tr>
@@ -168,12 +172,12 @@ class AdminView
 
         echo $tableEnd;
 
-        if(!$idOrder["sent"]) {
+        if(!$idOrder["sent"]) 
             echo
             "<form action='#' method='POST'> 
             <input class='btn btn-primary btn-block' type='submit' value='SEND'/>
             </form>";
-        }
+        
 
         echo "</div>";
     }
