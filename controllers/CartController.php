@@ -21,9 +21,10 @@ class CartController
 
         if ($cart)
             $this->view->viewCartPage($cart);
-
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        // Fixa så den bara reagerar på order post request
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['order'])
             $this->processOrderForm($cart);
+            // Ny view med success meddelande och orderbekräftelse
 
         $this->getFooter();
     }
@@ -48,6 +49,7 @@ class CartController
             $lastInsertId = $confirm['lastInsertId'];
             $this->view->viewConfirmMessage($customer, $lastInsertId); */
             $this->model->deleteCarts($customer_id);
+
         } else {
             /* $this->view->viewErrorMessage($customer_id); */
         }
