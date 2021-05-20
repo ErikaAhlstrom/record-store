@@ -19,14 +19,26 @@ class CartController
         $customer_id = $_SESSION['customer']['id_customer'];
         $cart = $this->model->fetchCartByCustomerId($customer_id);
 
-        if ($cart)
-            $this->view->viewCartPage($cart);
+        if ($cart) {
+            $totalSum = $this->calcTotal($cart);
+            $this->view->viewCartPage($cart, $totalSum);
+        }
+
         // Fixa så den bara reagerar på order post request
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['order'])
             $this->processOrderForm($cart);
-            // Ny view med success meddelande och orderbekräftelse
+        // Ny view med success meddelande och orderbekräftelse
 
         $this->getFooter();
+    }
+
+    private function calcTotal($carts)
+    {
+        $totalSum = 0;
+        foreach ($carts as $cart) {
+            $totalSum += ($cart["price"] * $cart["amount"]);
+        }
+        return $totalSum;
     }
 
     private function getHeader($title)
@@ -49,7 +61,6 @@ class CartController
             $lastInsertId = $confirm['lastInsertId'];
             $this->view->viewConfirmMessage($customer, $lastInsertId); */
             $this->model->deleteCarts($customer_id);
-
         } else {
             /* $this->view->viewErrorMessage($customer_id); */
         }

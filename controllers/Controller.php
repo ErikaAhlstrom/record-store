@@ -18,7 +18,7 @@ class Controller
         $this->getAllRecords();
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['add'])
-            echo $this->processAddToCart();
+            $this->processAddToCart();
 
         $this->getRecordsEnd();
         $this->getFooter();
@@ -29,9 +29,6 @@ class Controller
         $customer_id = $_SESSION['customer']['id_customer'];
         $record_id = $this->sanitize($_POST['record_id']);
         $amount = $this->sanitize($_POST['amount']);
-        // echo $customer_id;
-        // echo $record_id;
-        // echo $amount;
         $confirm = $this->model->addToCart($customer_id, $record_id, $amount);
         return $confirm;
     }
