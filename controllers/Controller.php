@@ -16,8 +16,23 @@ class Controller
         $this->getHeader("Välkommen");
         $this->getHero();
         $this->getAllRecords();
-        $this->getRecordsEnd();
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && $_POST['add'])
+            $this->processAddToCart();
+
+        $this->getRecordsEnd(); 
         $this->getFooter();
+        
+    }
+
+    private function processAddToCart() {
+        $customer_id = $_SESSION['customer']['id_customer'];
+        $record_id = $this->sanitize($_POST['record_id']);
+        $amount = $this->sanitize($_POST['amount']);
+        echo $customer_id;
+        echo $record_id;
+        echo $amount;
+       //$this->model->addToCart($customer_id, $record_id, $amount);
     }
 
     private function getHeader($title)
