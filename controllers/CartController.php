@@ -11,16 +11,20 @@ class CartController
         $this->view = $view;
     }
 
-    public function cart()
+    public function cart($show)
     {
         $this->getHeader("Cart");
 
         $customer_id = $_SESSION['customer']['id_customer'];
+
         $cart = $this->model->fetchCartByCustomerId($customer_id);
 
         if ($cart) {
             $totalSum = $this->calcTotal($cart);
             $this->view->viewCartPage($cart, $totalSum);
+        } else if ($show) {
+            // View Thank You Message
+            $this->view->thankYou();
         } else {
             $this->view->viewEmptyCart();
         }
@@ -31,8 +35,9 @@ class CartController
         // Ny view med success meddelande och orderbekräftelse
 
         // REMOVE ITEM FROM CART
-        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove']))
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove'])) {
             $this->removeItemFromCart();
+        }
 
         $this->getFooter();
     }
@@ -62,12 +67,8 @@ class CartController
         $confirm = $this->model->saveOrder($customer_id, $cart);
 
         if ($confirm) {
-            /*          $customer = $confirm['customer'];
-            $lastInsertId = $confirm['lastInsertId'];
-            $this->view->viewConfirmMessage($customer, $lastInsertId); */
             $this->model->deleteCart($customer_id);
-        } else {
-            /* $this->view->viewErrorMessage($customer_id); */
+            echo "<script>location.href = 'http://localhost/record-store/cart/thank-you';</script>";
         }
     }
 
@@ -76,7 +77,9 @@ class CartController
         $record_id = $this->sanitize($_POST["record_id"]);
         $customer_id = $_SESSION['customer']['id_customer'];
 
-        return $this->model->deleteCartDetail($record_id, $customer_id);
+        $this->model->deleteCartDetail($record_id, $customer_id);
+
+        echo "<script>location.href = 'http://localhost/record-store/cart';</script>";
     }
 
     /**

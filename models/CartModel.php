@@ -80,6 +80,6 @@ class CartModel
             ':customer_id' => $customer_id,
             ':record_id' => $record_id
         );
-        return $this->db->delete($statement, $parameters);
+        $this->db->delete($statement, $parameters);
     }
 }

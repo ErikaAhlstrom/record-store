@@ -55,17 +55,17 @@ $registerController = new RegisterController($registerModel, $registerView);
 
 $url = getUrl();
 $page = $url[0] ?? "";
-$param = $url[1] ?? "";
+$show = $url[1] ?? "";
 
 switch ($page) {
     case "":
         $controller->index();
         break;
     case "cart":
-        $cartController->cart();
+        $cartController->cart($show);
         break;
     case "admin":
-        $adminController->admin($param);
+        $adminController->admin($show);
         break;
     case "login":
         $loginController->login();

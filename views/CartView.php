@@ -79,25 +79,19 @@ class CartView
         </div>
         HTML;
         echo $cartCardsEnd;
-        // lite stängningsdivar
     }
-
-
-
-    // Bra att läsa om PHP Templating och HEREDOC syntax!
-    // https://css-tricks.com/php-templating-in-just-php/
 
     public function viewOneCart($cart)
     {
-        $url = URLROOT;
         $totalSum = ($cart["price"] * $cart["amount"]);
+        $url = URLROOT . "cart/remove";
 
         $cartCard = <<<HTML
             
             <div class="card mb-3" style="max-width: 600px;">
                 <div class="row g-0">
                     <div class="mx-auto col-md-6">
-                        <img  style=" max-width: 300px;" class="img-fluid" src=$url/$cart[cover] alt="">
+                        <img  style=" max-width: 300px;" class="img-fluid" src=$cart[cover] alt="">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
@@ -106,7 +100,7 @@ class CartView
                             <hr>
                             <h5 class="card-title">€$totalSum</h5>
                             <p class="card-text">Amount: $cart[amount] </p>
-                                <!-- Form som vid submit tar bort detta iten från db -->
+                                <!-- Form som vid submit tar bort detta item från db -->
                                 <form action="#" method="post">
                                     <input  hidden name="record_id" value="$cart[id_record]">
                                     <input class="offset-7 btn btn-secondary" value="Remove" type="submit" name="remove">
@@ -159,43 +153,18 @@ class CartView
         echo $html;
     }
 
-    /*     public function viewConfirmMessage($customer, $lastInsertId)
+    public function thankYou()
     {
-        $this->printMessage(
-            "<h4>Tack $customer[name]</h4>
-            <p>Vi kommer att skicka filmen till följande e-post:</p>
-            <p>$customer[email]</p>
-            <p>Ditt ordernummer är $lastInsertId </p>
-            </div> <!-- col  avslutar Beställningsformulär -->
-            ",
-            "success"
-        );
-    } */
-
-    /*     public function viewErrorMessage($customer_id)
-    {
-        $this->printMessage(
-            "<h4>Kundnummer $customer_id finns ej i vårt kundregister!</h4>
-            <h5>Kontakta kundtjänst</h5>
-            </div> <!-- col  avslutar Beställningsformulär -->
-            ",
-            "warning"
-        );
-    } */
-
-    /**
-     * En funktion som skriver ut ett felmeddelande
-     * $messageType enligt Bootstrap Alerts
-     * https://getbootstrap.com/docs/5.0/components/alerts/
-     */
-    public function printMessage($message, $messageType = "danger")
-    {
-        $html = <<< HTML
-            <div class="my-2 alert alert-$messageType">
-                $message
-            </div>
+        $url = URLROOT;
+        $customer_name = ucfirst($_SESSION['customer']['firstName']);
+        echo $this->cartBodyStart;
+        $thankYouDiv = <<<HTML
+        <div class="col-12 text-center">
+            <h2 class="mb-2 text-dark">Thank you $customer_name!</h2>
+            <img class="img-fluid" style="max-width: 400px;" src=$url/assets/img/record-playing.gif alt="record playing gif">
+        </div>
         HTML;
-
-        echo $html;
+        echo $thankYouDiv;
+        echo $this->cartBodyEnd;
     }
 }
