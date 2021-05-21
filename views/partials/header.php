@@ -2,6 +2,7 @@
 function navigation()
 {
     $destination = URLROOT;
+    $list = "";
 
     if (isset($_SESSION['customer'])) {
         $listItems = [
@@ -21,8 +22,9 @@ function navigation()
         ];
     }
     foreach ($listItems as $listItem) {
-        echo "<li class='nav-item mx-0 mx-lg-1'><a class='nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href=$destination$listItem[path]>$listItem[title]</a></li>";
+        $list .= "<li class='nav-item mx-0 mx-lg-1'><a class='nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href=$destination$listItem[path]>$listItem[title]</a></li>";
     }
+    echo $list;
 }
 ?>
 
