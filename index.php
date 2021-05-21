@@ -19,17 +19,23 @@ require_once("views/RegisterView.php");
 
 
 // Controllers
-require_once("controllers/Controller.php");
+require_once("controllers/experiment/SuperController.php");
+require_once("controllers/experiment/ControllerTEST.php");
+require_once("controllers/experiment/AdminControllerTEST.php");
+require_once("controllers/experiment/LoginControllerTEST.php");
+require_once("controllers/experiment/RegisterControllerTEST.php");
+// require_once("controllers/Controller.php");
 require_once("controllers/CartController.php");
-require_once("controllers/AdminController.php");
-require_once("controllers/LoginController.php");
-require_once("controllers/RegisterController.php");
+// require_once("controllers/AdminController.php");
+// require_once("controllers/LoginController.php");
+// require_once("controllers/RegisterController.php");
 
 $database = new Database("recordstoreDB", "root", "root");
 
 $model = new Model($database);
 $view = new View();
-$controller = new Controller($model, $view);
+// $controller = new Controller($model, $view);
+$controller = new ControllerTEST($model, $view);
 
 // Cart MVC
 $cartModel = new CartModel($database);
@@ -39,17 +45,20 @@ $cartController = new CartController($cartModel, $cartView);
 // Admin MVC
 $adminModel = new AdminModel($database);
 $adminView  = new AdminView();
-$adminController = new AdminController($adminModel, $adminView);
+// $adminController = new AdminController($adminModel, $adminView);
+$adminController = new AdminControllerTEST($adminModel, $adminView);
 
 // Login MVC
 $loginModel = new LoginModel($database);
 $loginView  = new LoginView();
-$loginController = new LoginController($loginModel, $loginView);
+// $loginController = new LoginController($loginModel, $loginView);
+$loginController = new LoginControllerTEST($loginModel, $loginView);
 
 // Login MVC
 $registerModel = new RegisterModel($database);
 $registerView  = new RegisterView();
-$registerController = new RegisterController($registerModel, $registerView);
+// $registerController = new RegisterController($registerModel, $registerView);
+$registerController = new RegisterControllerTEST($registerModel, $registerView);
 
 // Simple Router
 
