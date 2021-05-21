@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: May 20, 2021 at 10:13 AM
+-- Generation Time: May 21, 2021 at 01:43 PM
 -- Server version: 5.7.32
 -- PHP Version: 7.4.12
 
@@ -119,28 +119,8 @@ INSERT INTO `customers` (`id_customer`, `firstName`, `lastName`, `phone_number`,
 (6, 'Gustaf', 'Johnsson', '0707788999', 'gustaf@example.com', '2021-05-18 07:55:16', 'gustafhejhej'),
 (7, 'Kalle', 'Stropp', '24524524525', 'kalle@stropp.se', '2021-05-18 12:49:32', '$2y$10$JeRcn4JQzwS6Z8A/4zGTg.4VpTTST0aTrWlgWr59nWltU1Q816W6S'),
 (8, 'Grodan', 'Boll', '930459340958', 'grodan@info.se', '2021-05-18 12:50:27', '$2y$10$pC/Q2ftoinJq5TZiLYirMekj3zKZHePiTt/Nb2FScxQFJlTcQsJgu'),
-(9, 'Lasse', 'Åberg', '9384059843058', 'lasse@lasse.se', '2021-05-18 12:53:38', '$2y$10$3dhvTS8h7YNH/oxVd90YruVnxONp1/c3P.qpdFhNNozApiggSDGGm');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `genres`
---
-
-CREATE TABLE `genres` (
-  `id_genre` int(11) NOT NULL,
-  `genre` varchar(45) COLLATE utf8_swedish_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
-
---
--- Dumping data for table `genres`
---
-
-INSERT INTO `genres` (`id_genre`, `genre`) VALUES
-(1, 'electronic'),
-(2, 'indie'),
-(3, 'pop'),
-(4, 'r&b');
+(9, 'Lasse', 'Åberg', '9384059843058', 'lasse@lasse.se', '2021-05-18 12:53:38', '$2y$10$3dhvTS8h7YNH/oxVd90YruVnxONp1/c3P.qpdFhNNozApiggSDGGm'),
+(10, 'hej', 'hej', '23423', 'hej@hej.se', '2021-05-20 11:35:06', '$2y$10$Oyv3zcCVLGbPQc9evHeu9uvbnWbAjwSj01rNlX5kkBxHu322z6tDa');
 
 -- --------------------------------------------------------
 
@@ -162,7 +142,14 @@ CREATE TABLE `orders` (
 INSERT INTO `orders` (`id_order`, `sent`, `timestamp`, `id_customer`) VALUES
 (1, 0, '2021-05-18 08:04:51', 6),
 (2, 1, '2021-05-18 08:04:51', 5),
-(3, 0, '2021-05-18 08:05:05', 3);
+(3, 0, '2021-05-18 08:05:05', 3),
+(4, 0, '2021-05-20 11:35:45', 10),
+(5, 1, '2021-05-20 12:34:22', 10),
+(6, 0, '2021-05-21 07:51:35', 10),
+(7, 0, '2021-05-21 09:25:54', 10),
+(8, 0, '2021-05-21 09:41:15', 10),
+(9, 1, '2021-05-21 10:04:21', 10),
+(10, 0, '2021-05-21 13:41:42', 10);
 
 -- --------------------------------------------------------
 
@@ -185,7 +172,17 @@ INSERT INTO `order_details` (`orders_id_order`, `records_id_record`, `amount`) V
 (1, 8, 1),
 (2, 4, 3),
 (2, 9, 1),
-(3, 16, 2);
+(3, 16, 2),
+(4, 2, 1),
+(4, 8, 2),
+(5, 5, 1),
+(6, 7, 2),
+(6, 12, 3),
+(7, 1, 1),
+(7, 4, 1),
+(8, 1, 1),
+(9, 18, 4),
+(10, 2, 1);
 
 -- --------------------------------------------------------
 
@@ -267,42 +264,6 @@ INSERT INTO `records_has_artists` (`id_record`, `id_artist`) VALUES
 (19, 20),
 (20, 21);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `records_has_genres`
---
-
-CREATE TABLE `records_has_genres` (
-  `id_genre` int(11) NOT NULL,
-  `id_record` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_swedish_ci;
-
---
--- Dumping data for table `records_has_genres`
---
-
-INSERT INTO `records_has_genres` (`id_genre`, `id_record`) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(1, 4),
-(1, 5),
-(2, 7),
-(2, 8),
-(2, 9),
-(2, 10),
-(3, 11),
-(3, 12),
-(3, 13),
-(3, 14),
-(3, 15),
-(4, 16),
-(4, 17),
-(4, 18),
-(4, 19),
-(4, 20);
-
 --
 -- Indexes for dumped tables
 --
@@ -334,12 +295,6 @@ ALTER TABLE `customers`
   ADD PRIMARY KEY (`id_customer`);
 
 --
--- Indexes for table `genres`
---
-ALTER TABLE `genres`
-  ADD PRIMARY KEY (`id_genre`);
-
---
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
@@ -368,14 +323,6 @@ ALTER TABLE `records_has_artists`
   ADD KEY `fk_records_has_artists_records1_idx` (`id_record`);
 
 --
--- Indexes for table `records_has_genres`
---
-ALTER TABLE `records_has_genres`
-  ADD PRIMARY KEY (`id_record`,`id_genre`),
-  ADD KEY `fk_genres_has_records_records1_idx` (`id_record`),
-  ADD KEY `fk_genres_has_records_genres_idx` (`id_genre`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -395,19 +342,13 @@ ALTER TABLE `artists`
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT for table `genres`
---
-ALTER TABLE `genres`
-  MODIFY `id_genre` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id_customer` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_order` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `records`
@@ -445,10 +386,3 @@ ALTER TABLE `order_details`
 ALTER TABLE `records_has_artists`
   ADD CONSTRAINT `fk_records_has_artists_artists1` FOREIGN KEY (`id_artist`) REFERENCES `artists` (`id_artist`),
   ADD CONSTRAINT `fk_records_has_artists_records1` FOREIGN KEY (`id_record`) REFERENCES `records` (`id_record`);
-
---
--- Constraints for table `records_has_genres`
---
-ALTER TABLE `records_has_genres`
-  ADD CONSTRAINT `fk_genres_has_records_genres` FOREIGN KEY (`id_genre`) REFERENCES `genres` (`id_genre`),
-  ADD CONSTRAINT `fk_genres_has_records_records1` FOREIGN KEY (`id_record`) REFERENCES `records` (`id_record`);

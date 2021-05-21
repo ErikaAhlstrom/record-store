@@ -16,7 +16,7 @@ class View
     include_once("views/partials/footer.php");
   }
 
-  public function viewRecordsStart($genres)
+  public function viewRecordsStart()
   {
     include_once("views/partials/recordsStart.php");
   }

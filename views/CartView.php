@@ -14,7 +14,7 @@ class CartView
 
     // CART START AND END HTML
     private $cartBodyStart = <<<HTML
-    <div class="container masthead">
+    <div class="container masthead min-vh-100">
     <div class="row">
     HTML;
 
