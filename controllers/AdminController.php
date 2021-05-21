@@ -35,8 +35,8 @@ class AdminController
 
                 break;
             case "products":
-                $records = $this->getAllProducts();
-                $this->view->viewAllProducts($records);
+                if($id) $this->updateProduct();
+                else $this->products();
 
                 break;
             case "orders":
@@ -79,6 +79,58 @@ class AdminController
         }
     }
 
+    private function products() 
+    {
+        $records = $this->getAllProducts();
+        $this->view->viewAllProducts($records);
+    }
+
+    private function updateProduct() 
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = $this->sanitize($_POST['name']);
+            $artist = $this->getArtistByName($name);
+            $records_has_artists = $this->getRecordsHasArtistsById();
+
+            $artist_id = $artist ? $artist[0]['id_artist'] : $this->insertArtist($name);
+
+            if($artist_id !== $records_has_artists[0]['id_artist']) $this->updateRecordsHasArtists($artist_id);
+
+            foreach($_POST as $key => $value){
+                $record[$key] = $this->sanitize($value); 
+            }
+            $this->updateRecord($record);
+        }
+        $product = $this->getProductById();
+        $artists = $this->getAllArtists();
+        $this->getProductForm($product);
+    }
+
+    private function updateRecord($record) 
+    {
+        $this->model->updateRecord($this->id, $record);
+    }
+
+    private function updateRecordsHasArtists($artist_id) 
+    {
+        $this->model->updateRecordsHasArtists($this->id, $artist_id);
+    }
+
+    private function getRecordsHasArtistsById()
+    {
+        return $this->model->fetchRecordsHasArtistsById($this->id);
+    }
+
+    private function insertArtist($name) 
+    {
+        return $this->model->insertArtist($name);
+    }
+
+    private function getArtistByName($name) 
+    {
+        return $this->model->fetchArtistByName($name);
+    }
+
     private function orders()
     {
         $orders = $this->getAllOrders();
@@ -103,6 +155,21 @@ class AdminController
     private function getAllProducts()
     {
         return $this->model->fetchAllRecords();
+    }
+
+    private function getProductById()
+    {
+        return $this->model->fetchRecordById($this->id);
+    }
+
+    private function getAllArtists() 
+    {
+        return $this->model->fetchAllArtists();
+    }
+
+    private function getProductForm($product)
+    {
+        $this->view->viewProductForm($product);
     }
 
     private function getOrderById()
