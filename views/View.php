@@ -73,16 +73,19 @@ class View
                                                       <p class="mb-3 text-muted"><small>RELEASE YEAR $record[year_released]</small></p>
                                                       <p class="mb-3">$record[description]</p>
                                                       <h3 class="mb-3 text-muted">€$record[price]</h3>
-                                                      <form action="#" method="POST">
-                                                      <input class="mb-5 btn btn-primary btn-lg" type="submit" value="Add to cart"/>
+                                                      <form class="d-flex flex-column" action="" method="POST">
+                                                      <select name="amount" class="mb-3 col-4 btn btn-secondary dropdown-toggle" aria-label=".form-select-sm example">
+                                                        <option selected value="1">1</option>
+                                                        <option value="2">2</option>
+                                                        <option value="3">3</option>
+                                                        <option value="4">4</option>
+                                                        <option value="5">5</option>
+                                                      </select>
+                                                        <input hidden value="$record[id_record]" name="record_id">
+                                                        <input class="mb-5 btn btn-primary btn-lg" type="submit" name="add" value="Add to cart"/>
                                                       </form>
                                                     </div>
                                                   </div>
-                                                  <!-- Record Modal - Text-->
-                                                  <button class="btn btn-secondary" data-dismiss="modal">
-                                                      <i class="fas fa-times fa-fw"></i>
-                                                      Close Window
-                                                  </button>
                                               </div>
                                           </div>
                                       </div>

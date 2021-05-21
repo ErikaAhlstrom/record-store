@@ -11,21 +11,44 @@ class CartController
         $this->view = $view;
     }
 
-    public function cart()
+    public function cart($show)
     {
         $this->getHeader("Cart");
 
-        // Hämta id från SESSION
         $customer_id = $_SESSION['customer']['id_customer'];
+
         $cart = $this->model->fetchCartByCustomerId($customer_id);
 
-        if ($cart)
-            $this->view->viewCartPage($cart);
+        if ($cart) {
+            $totalSum = $this->calcTotal($cart);
+            $this->view->viewCartPage($cart, $totalSum);
+        } else if ($show) {
+            // View Thank You Message
+            $this->view->thankYou();
+        } else {
+            $this->view->viewEmptyCart();
+        }
 
-        if ($_SERVER['REQUEST_METHOD'] === 'POST')
+        // ORDER
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['order']))
             $this->processOrderForm($cart);
+        // Ny view med success meddelande och orderbekräftelse
+
+        // REMOVE ITEM FROM CART
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['remove'])) {
+            $this->removeItemFromCart();
+        }
 
         $this->getFooter();
+    }
+
+    private function calcTotal($carts)
+    {
+        $totalSum = 0;
+        foreach ($carts as $cart) {
+            $totalSum += ($cart["price"] * $cart["amount"]);
+        }
+        return $totalSum;
     }
 
     private function getHeader($title)
@@ -44,13 +67,19 @@ class CartController
         $confirm = $this->model->saveOrder($customer_id, $cart);
 
         if ($confirm) {
-            /*          $customer = $confirm['customer'];
-            $lastInsertId = $confirm['lastInsertId'];
-            $this->view->viewConfirmMessage($customer, $lastInsertId); */
-            $this->model->deleteCarts($customer_id);
-        } else {
-            /* $this->view->viewErrorMessage($customer_id); */
+            $this->model->deleteCart($customer_id);
+            echo "<script>location.href = 'http://localhost/record-store/cart/thank-you';</script>";
         }
+    }
+
+    private function removeItemFromCart()
+    {
+        $record_id = $this->sanitize($_POST["record_id"]);
+        $customer_id = $_SESSION['customer']['id_customer'];
+
+        $this->model->deleteCartDetail($record_id, $customer_id);
+
+        echo "<script>location.href = 'http://localhost/record-store/cart';</script>";
     }
 
     /**

@@ -46,24 +46,17 @@ class Model
         return $customer[0] ?? false;
     }
 
-
-    public function saveOrder($customer_id, $movie_id)
+    public function addToCart($customer_id, $record_id, $amount)
     {
-        $customer = $this->fetchCustomerById($customer_id);
-        if (!$customer) return false;
-
-        $statement = "INSERT INTO orders (customer_id, film_id)  
-                      VALUES (:customer_id, :film_id)";
-        $parameters = array(
-            ':customer_id' => $customer_id,
-            ':film_id' => $movie_id
+        $statement = "INSERT INTO carts (id_customer, id_record, amount) 
+                        VALUES (:id_customer, :id_record, :amount)";
+        $params = array(
+            ':id_customer' => $customer_id,
+            ':id_record' => $record_id,
+            'amount' => $amount
         );
 
-        // Ordernummer
-        $lastInsertId = $this->db->insert($statement, $parameters);
-
-        return array('customer' => $customer, 'lastInsertId' => $lastInsertId);
+        $cart = $this->db->insert($statement, $params);
+        return $cart;
     }
-
-
 }
