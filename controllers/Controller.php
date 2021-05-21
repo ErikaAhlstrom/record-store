@@ -48,9 +48,9 @@ class Controller
         $this->view->viewFooter();
     }
 
-    private function getRecordsStart($genres)
+    private function getRecordsStart()
     {
-        $this->view->viewRecordsStart($genres);
+        $this->view->viewRecordsStart();
     }
 
     private function getRecordsEnd()
@@ -60,8 +60,7 @@ class Controller
 
     private function getAllRecords()
     {
-        $genres = $this->model->fetchAllGenres();
-        $this->getRecordsStart($genres);
+        $this->getRecordsStart();
         $records = $this->model->fetchAllRecords();
         $this->view->viewAllRecords($records);
     }
