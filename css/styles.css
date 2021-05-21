@@ -10276,13 +10276,23 @@ form .row:first-child .floating-label-form-group {
 
  ================================================================= */
 
- .sidebar {
-   
- }
 
- #record-cover {
-	width: 300px !important;
-	height: 300px !important;
-	object-fit: cover !important;
-  /* display: flex; */
+ div#slide-left {
+  width:100% !important ;
+  overflow:hidden !important ;
+}
+div#slide-left p {
+  animation: slide-left 10s !important ;
+}
+
+@keyframes slide-left {
+  from {
+    margin-left: 100% !important ;
+    width: 300% !important ; 
+  }
+
+  to {
+    margin-left: 0% !important ;
+    width: 100% !important ;
+  }
 }
