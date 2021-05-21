@@ -83,19 +83,20 @@ class CartView
 
     public function viewOneCart($cart)
     {
+        $title = $this->trimString($cart['title']);
         $totalSum = ($cart["price"] * $cart["amount"]);
         $url = URLROOT . "cart/remove";
 
         $cartCard = <<<HTML
             
-            <div class="card mb-3" style="max-width: 600px;">
+            <div class="card mb-3" style="max-width: 700px;">
                 <div class="row g-0">
                     <div class="mx-auto col-md-6">
-                        <img  style=" max-width: 300px;" class="img-fluid" src=$cart[cover] alt="">
+                        <img  style="max-width: 300px;" class="img-fluid" src=$cart[cover] alt="">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
-                            <h5 class="card-title">$cart[title]</h5>
+                            <h5 data-bs-toggle="tooltip" data-bs-placement="top" title="$cart[title]" class="card-title">$title</h5>
                             <p class="fw-bolder card-text">$cart[name]</p>
                             <hr>
                             <h5 class="card-title">€$totalSum</h5>
@@ -150,6 +151,17 @@ class CartView
         HTML;
 
         echo $html;
+    }
+
+    public function trimString($title) {
+        $pieces = explode(" ", $title);
+        $first_part = implode(" ", array_splice($pieces, 0, 5));
+        $other_part = implode(" ", array_splice($pieces, 5));
+        if($title == $first_part) {
+            return $title;
+        } else {
+            return $first_part . "...";
+        }
     }
 
     public function thankYou()
