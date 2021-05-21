@@ -16,7 +16,7 @@ class AdminView
     {
         include_once("views/partials/loginAdminForm.php");
     }
-    
+
     public function viewTableRow($record)
     {
         $tableRow = <<<HTML
@@ -27,7 +27,7 @@ class AdminView
             <td><a class="btn btn-danger">Delete</a></td>
             </tr>
         HTML;
-        
+
         echo $tableRow;
     }
 
@@ -52,10 +52,10 @@ class AdminView
             </td>
             </tr>
         HTML;
-        
+
         echo $tableRow;
     }
-    
+
     public function viewTableRowOrderDetails($order)
     {
         $destination = URLROOT;
@@ -108,7 +108,7 @@ class AdminView
     public function viewAllOrders($orders)
     {
         $tableStart = <<<HTML
-        <div class="container masthead vh-100">
+        <div class="container masthead min-vh-100">
             <h2>Orders</h2>
             <table class="table mt-2">
                 <thead>
@@ -142,9 +142,9 @@ class AdminView
     {
         $idOrder = $order[0];
         $destination = URLROOT . "admin/orders";
-        
+
         $tableStart = <<<HTML
-        <div class="container masthead vh-100">
+        <div class="container masthead min-vh-100">
             <div class='d-flex justify-content-between'>
                 <h2>Order details for order $idOrder[id_order]</h2>
                 <a href='$destination' class='btn btn-dark'>Back</a>
@@ -160,11 +160,11 @@ class AdminView
                 <tbody>
         HTML;
         echo $tableStart;
-        
+
         foreach ($order as $orderDetails) {
             $this->viewTableRowOrderDetails($orderDetails);
         }
-        
+
         $tableEnd = <<<HTML
             </tbody>
             </table>
@@ -172,12 +172,12 @@ class AdminView
 
         echo $tableEnd;
 
-        if(!$idOrder["sent"]) 
+        if (!$idOrder["sent"])
             echo
             "<form action='#' method='POST'> 
             <input class='btn btn-primary btn-block' type='submit' value='SEND'/>
             </form>";
-        
+
 
         echo "</div>";
     }
