@@ -145,7 +145,6 @@ class CartView
                                 value="Save order">
                     </form>
                 </div>
-
             <!-- col avslutas efter ett meddelande från viewConfirmMessage eller viewErrorMessage -->
 
         HTML;

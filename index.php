@@ -56,6 +56,7 @@ $registerController = new RegisterController($registerModel, $registerView);
 $url = getUrl();
 $page = $url[0] ?? "";
 $show = $url[1] ?? "";
+$id = $url[2] ?? "";
 
 switch ($page) {
     case "":
@@ -65,7 +66,7 @@ switch ($page) {
         $cartController->cart($show);
         break;
     case "admin":
-        $adminController->admin($show);
+        $adminController->admin($show, $id);
         break;
     case "login":
         $loginController->login();
