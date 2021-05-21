@@ -81,6 +81,7 @@ class AdminControllerTEST extends SuperController
             foreach ($_POST as $key => $value) {
                 $record[$key] = $this->sanitize($value);
             }
+
             $this->model->updateRecord($this->id, $record);
         }
         $product = $this->model->fetchRecordById($this->id);

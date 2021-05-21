@@ -11,8 +11,8 @@ class LoginControllerTEST extends SuperController
             try {
                 $customer = $this->model->loginCustomer($email, $password);
                 $_SESSION['customer'] = $customer;
-                $destination = URLROOT;
-                header("Location: $destination");
+                header("Location: $this->destination");
+                die();
             } catch (Exception $e) {
                 echo $e->getMessage();
             }

@@ -4,13 +4,12 @@ class SuperController
 {
   protected $model;
   protected $view;
-  protected $destination;
+  protected $destination = URLROOT;
 
   public function __construct($model, $view)
   {
     $this->model = $model;
     $this->view = $view;
-    $this->destination = URLROOT;
   }
 
   protected function getHeader($title)
