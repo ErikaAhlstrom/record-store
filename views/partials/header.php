@@ -1,3 +1,33 @@
+<?php
+function navigation()
+{
+    $destination = URLROOT;
+    $list = "";
+
+    if (isset($_SESSION['customer'])) {
+        $listItems = [
+            ['path' => 'logout.php', 'title' => 'Log Out'],
+            ['path' => 'cart', 'title' => "<i id='cart-icon' class='bx bx-cart'></i>"]
+        ];
+    } else if (isset($_SESSION['admin'])) {
+        $listItems = [
+            ['path' => 'admin/products', 'title' => 'Products'],
+            ['path' => 'admin/orders', 'title' => 'Orders'],
+            ['path' => 'logout.php', 'title' => 'Log Out'],
+        ];
+    } else {
+        $listItems = [
+            ['path' => 'register', 'title' => 'Register'],
+            ['path' => 'login', 'title' => 'Log in'],
+        ];
+    }
+    foreach ($listItems as $listItem) {
+        $list .= "<li class='nav-item mx-0 mx-lg-1'><a class='nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger' href=$destination$listItem[path]>$listItem[title]</a></li>";
+    }
+    echo $list;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,10 +61,9 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="<?= URLROOT ?>register">Register</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="<?= URLROOT ?>login">Log In</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="<?= URLROOT ?>logout.php">Log Out</a></li>
-                    <li class="nav-item mx-0 mx-lg-1"><a class="nav-link py-3 px-0 px-lg-3 rounded js-scroll-trigger" href="<?= URLROOT ?>cart"><i id="cart-icon" class='bx bx-cart'></i></a></li>
+                    <?php
+                    navigation();
+                    ?>
                 </ul>
             </div>
         </div>
