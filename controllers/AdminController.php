@@ -90,20 +90,35 @@ class AdminController
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = $this->sanitize($_POST['name']);
             $artist = $this->getArtistByName($name);
+            $records_has_artists = $this->getRecordsHasArtistsById();
 
             $artist_id = $artist ? $artist[0]['id_artist'] : $this->insertArtist($name);
-            echo $artist_id;
 
-            // $this->updateRecordsHasArtists($artist_id);
+            if($artist_id !== $records_has_artists[0]['id_artist']) $this->updateRecordsHasArtists($artist_id);
+
+            foreach($_POST as $key => $value){
+                $record[$key] = $this->sanitize($value); 
+            }
+            $this->updateRecord($record);
         }
         $product = $this->getProductById();
         $artists = $this->getAllArtists();
         $this->getProductForm($product);
     }
 
+    private function updateRecord($record) 
+    {
+        $this->model->updateRecord($this->id, $record);
+    }
+
     private function updateRecordsHasArtists($artist_id) 
     {
         $this->model->updateRecordsHasArtists($this->id, $artist_id);
+    }
+
+    private function getRecordsHasArtistsById()
+    {
+        return $this->model->fetchRecordsHasArtistsById($this->id);
     }
 
     private function insertArtist($name) 

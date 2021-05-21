@@ -61,16 +61,32 @@ class AdminModel
         return $record;
     }
 
-    public function updateRecord($product) {
+    public function updateRecord($id, $record) {
         $statement = "UPDATE records
         SET title = :title, description = :description, price = :price, year_released = :year_released, stock = :stock 
         WHERE id_record = :id";
+        $parameters = array(
+            ":title" => $record['title'],
+            ":description" => $record['description'],
+            ":price" => $record['price'],
+            ":year_released" => $record['year_released'],
+            ":stock" => $record['stock'],
+            ":id" => $id
+        );
+        $this->db->update($statement, $parameters);
     }
 
-    public function updateRecordsHasArtists($record_id, $artist_id) {
-        $statement = "UPDATE records_has_artists SET $artist_id = :artist_id WHERE record_id = :record_id";
-        $parameters = array(":artist_id" => $artist_id, ":record_id" => $record_id);
+    public function updateRecordsHasArtists($id_record, $id_artist) {
+        $statement = "UPDATE records_has_artists SET id_artist = :id_artist WHERE id_record = :id_record";
+        $parameters = array(":id_artist" => $id_artist, ":id_record" => $id_record);
         $this->db->update($statement, $parameters);
+    }
+
+    public function fetchRecordsHasArtistsById($id_record) {
+        $statement = "SELECT * FROM records_has_artists WHERE id_record = :id_record";
+        $parameters = array(":id_record" => $id_record);
+        $records_has_artists = $this->db->select($statement, $parameters);
+        return $records_has_artists;
     }
 
     public function fetchArtistByName($name) {
