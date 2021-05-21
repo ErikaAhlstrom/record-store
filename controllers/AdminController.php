@@ -87,9 +87,33 @@ class AdminController
 
     private function updateProduct() 
     {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $name = $this->sanitize($_POST['name']);
+            $artist = $this->getArtistByName($name);
+
+            $artist_id = $artist ? $artist[0]['id_artist'] : $this->insertArtist($name);
+            echo $artist_id;
+
+            // $this->updateRecordsHasArtists($artist_id);
+        }
         $product = $this->getProductById();
         $artists = $this->getAllArtists();
-        $this->getProductForm($product, $artists);
+        $this->getProductForm($product);
+    }
+
+    private function updateRecordsHasArtists($artist_id) 
+    {
+        $this->model->updateRecordsHasArtists($this->id, $artist_id);
+    }
+
+    private function insertArtist($name) 
+    {
+        return $this->model->insertArtist($name);
+    }
+
+    private function getArtistByName($name) 
+    {
+        return $this->model->fetchArtistByName($name);
     }
 
     private function orders()
@@ -128,9 +152,9 @@ class AdminController
         return $this->model->fetchAllArtists();
     }
 
-    private function getProductForm($product, $artists)
+    private function getProductForm($product)
     {
-        $this->view->viewProductForm($product, $artists);
+        $this->view->viewProductForm($product);
     }
 
     private function getOrderById()

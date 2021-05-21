@@ -46,7 +46,7 @@ class AdminModel
 
     public function fetchRecordById($id) 
     {
-        $statement = "SELECT r.title, r.description, r.price, r.year_released, a.id_artist, a.name, g.id_genre, g.genre FROM records r
+        $statement = "SELECT r.title, r.description, r.price, r.year_released, r.stock, a.id_artist, a.name, g.id_genre, g.genre FROM records r
         JOIN records_has_artists rha
         ON r.id_record=rha.id_record 
         JOIN artists a
@@ -59,6 +59,31 @@ class AdminModel
         $parameters = array(":id" => $id);
         $record = $this->db->select($statement, $parameters);
         return $record;
+    }
+
+    public function updateRecord($product) {
+        $statement = "UPDATE records
+        SET title = :title, description = :description, price = :price, year_released = :year_released, stock = :stock 
+        WHERE id_record = :id";
+    }
+
+    public function updateRecordsHasArtists($record_id, $artist_id) {
+        $statement = "UPDATE records_has_artists SET $artist_id = :artist_id WHERE record_id = :record_id";
+        $parameters = array(":artist_id" => $artist_id, ":record_id" => $record_id);
+        $this->db->update($statement, $parameters);
+    }
+
+    public function fetchArtistByName($name) {
+        $statement = "SELECT * FROM artists WHERE name = :name";
+        $parameters = array(':name' => $name);
+        $artist = $this->db->select($statement, $parameters);
+        return $artist;
+    }
+
+    public function insertArtist($name) {
+        $statement = "INSERT INTO artists (name) VALUES (:name)";
+        $parameters = array(':name' => $name);
+        return $this->db->insert($statement, $parameters);
     }
 
     public function fetchAllOrders()

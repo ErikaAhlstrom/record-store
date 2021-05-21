@@ -183,7 +183,7 @@ class AdminView
         echo "</div>";
     }
 
-    public function viewProductForm($product, $artists) {
+    public function viewProductForm($product) {
         $product = $product[0];
         include_once("views/partials/productForm.php");
     }

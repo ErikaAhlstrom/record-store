@@ -1,4 +1,4 @@
-<section class="page-section masthead vh-100" id="login">
+<section class="page-section masthead min-vh-100" id="login">
     <div class="container">
         <!-- Contact Section Heading-->
         <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Update Product</h2>
@@ -24,21 +24,28 @@
                     <div class="control-group">
                         
                             <label>Year Released</label>
-                            <input name="year_released" class="form-control" id="year_released" type="text" step="0.01" placeholder="Year Released" required="required" value="<?=$product['year_released']?>"/>
+                            <input name="year_released" class="form-control" id="year_released" type="text" placeholder="Year Released" required="required" value="<?=$product['year_released']?>"/>
                             <p class="help-block text-danger"></p>
                         
                     </div>
                     <div class="control-group">
                        
-                            <label>Name</label>
-                            <select name="name" class="form-control" id="year_released" required="required">
-                              <?php
-                                foreach($artists as $artist){
-                                  if($artist["id_artist"] == $product["id_artist"]) echo "<option value='$artist[id_artist]' selected>$artist[name]</option>";
-                                  else echo "<option value='$artist[id_artist]'>$artist[name]</option>";
-                                }
-                              ?>
-                            </select>
+                            <label>Artist Name</label>
+                            <input name="name" class="form-control" id="name" type="text" placeholder="Artist Name" required="required" value="<?=$product['name']?>"/>
+                            <p class="help-block text-danger"></p>
+                        
+                    </div>
+                    <div class="control-group">
+                       
+                            <label>Stock</label>
+                            <input name="stock" class="form-control" id="stock" type="number" placeholder="Stock" required="required" min="0" value="<?=$product['stock']?>"/>
+                            <p class="help-block text-danger"></p>
+                        
+                    </div>
+                    <div class="control-group">
+                       
+                            <label>Description</label>
+                            <textarea name="description" class="form-control" rows="5" placeholder="Description" required="required"><?=$product['description']?></textarea>
                             <p class="help-block text-danger"></p>
                         
                     </div>
