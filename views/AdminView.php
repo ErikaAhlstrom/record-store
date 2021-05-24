@@ -25,7 +25,11 @@ class AdminView
             <th scope="row">$record[id_record]</th>
             <td>$record[title]</td>
             <td><a class="btn btn-primary" href="$destination">Update</a></td>
-            <td><a class="btn btn-danger">Delete</a></td>
+            <td>
+            <form method="POST" action="#">
+                <input type="hidden" name="record_id" value="$record[id_record]">
+                <input value="Delete" type="submit"  name="delete" class="btn btn-danger"></td>
+            </form>
             </tr>
         HTML;
 
@@ -77,9 +81,13 @@ class AdminView
 
     public function viewAllProducts($records)
     {
+        $destination = URLROOT . "admin/products/add";
         $tableStart = <<<HTML
         <div class="container masthead">
+            <div class='d-flex justify-content-between'>
             <h2>Records Inventory</h2>
+            <a href=$destination class='btn btn-dark'>Add product</a>
+            </div>
             <table class="table mt-2">
                 <thead>
                     <tr>
@@ -182,9 +190,9 @@ class AdminView
 
         echo "</div>";
     }
-
-    public function viewProductForm($product) {
-        $product = $product[0];
+    // Renderar samma form för update OCH create.
+    public function viewProductForm($product) 
+    {    
         include_once("views/partials/productForm.php");
     }
 }

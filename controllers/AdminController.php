@@ -13,6 +13,9 @@ class AdminController
         $this->view = $view;
         $this->destination = URLROOT;
     }
+    /*******************************
+                ROUTE
+    ********************************/
 
     public function admin($param, $id)
     {
@@ -35,7 +38,14 @@ class AdminController
 
                 break;
             case "products":
-                if($id) $this->updateProduct();
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+                    $this->deleteProduct();
+                }
+                if($id !== "add" && is_numeric($id)) $this->updateProduct();
+                else if($id == "add") {
+                    $this->createProduct();
+                }
+
                 else $this->products();
 
                 break;
@@ -51,58 +61,60 @@ class AdminController
                 //$controller->index("This endpoint doesn't exist!");
                 break;
         }
-        // $records = $this->getAllProducts();
-        // $this->view->viewAllRecords($records);
-
-        // om det finns en session för admin -> redirect till admin/records
-        // annars rendera viewAdminLogin
-
-        // kalla på loginAdmin(POST-parameter från formuläret)
-        // om admin finns skapa session för admin -> då sker en redirect till admin/records
 
         $this->getFooter();
     }
 
-    private function setId($id)
+    /*******************************
+                CREATE
+    ********************************/
+
+    private function createArtist($name)
     {
-        $this->id = is_numeric($id) ? $id : false;
+        return $this->model->insertArtist($name);
     }
 
-    private function orderDetails()
+    private function createProduct() 
     {
-        $order = $this->getOrderById();
-        $this->view->viewOrderDetails($order);
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $this->setToSent();
-            header("Location: " . $this->destination . "admin/orders");
-            die();
+            $name = $this->sanitize($_POST['name']);
+            $artist = $this->getArtistByName($name);
+            $artist_id = $artist ? $artist[0]['id_artist'] : $this->createArtist($name);
+
+            foreach ($_POST as $key => $value) {
+                $record[$key] = $this->sanitize($value);
+            }
+            $record_id = $this->model->insertProduct($record);
+            $this->createRecordsHasArtists($artist_id, $record_id);
         }
+        $this->getProductForm();
     }
 
-    private function products() 
-    {
-        $records = $this->getAllProducts();
-        $this->view->viewAllProducts($records);
+    private function createRecordsHasArtists($artist_id, $record_id) {
+        $this->model->insertRecordsHasArtists($artist_id, $record_id);
     }
 
-    private function updateProduct() 
+    /*******************************
+                UPDATE
+    ********************************/
+
+    private function updateProduct()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = $this->sanitize($_POST['name']);
             $artist = $this->getArtistByName($name);
             $records_has_artists = $this->getRecordsHasArtistsById();
 
-            $artist_id = $artist ? $artist[0]['id_artist'] : $this->insertArtist($name);
+            $artist_id = $artist ? $artist[0]['id_artist'] : $this->createArtist($name);
 
-            if($artist_id !== $records_has_artists[0]['id_artist']) $this->updateRecordsHasArtists($artist_id);
+            if ($artist_id !== $records_has_artists[0]['id_artist']) $this->updateRecordsHasArtists($artist_id);
 
-            foreach($_POST as $key => $value){
-                $record[$key] = $this->sanitize($value); 
+            foreach ($_POST as $key => $value) {
+                $record[$key] = $this->sanitize($value);
             }
             $this->updateRecord($record);
         }
         $product = $this->getProductById();
-        $artists = $this->getAllArtists();
         $this->getProductForm($product);
     }
 
@@ -116,35 +128,23 @@ class AdminController
         $this->model->updateRecordsHasArtists($this->id, $artist_id);
     }
 
-    private function getRecordsHasArtistsById()
-    {
-        return $this->model->fetchRecordsHasArtistsById($this->id);
-    }
-
-    private function insertArtist($name) 
-    {
-        return $this->model->insertArtist($name);
-    }
-
-    private function getArtistByName($name) 
-    {
-        return $this->model->fetchArtistByName($name);
-    }
-
-    private function orders()
-    {
-        $orders = $this->getAllOrders();
-        $this->view->viewAllOrders($orders);
-    }
-
     private function setToSent()
     {
         $this->model->setToSent($this->id);
     }
 
-    private function getHeader($title)
+    /*******************************
+                READ
+    ********************************/
+
+    private function getRecordsHasArtistsById()
     {
-        $this->view->viewHeader($title);
+        return $this->model->fetchRecordsHasArtistsById($this->id);
+    }
+
+    private function getArtistByName($name) 
+    {
+        return $this->model->fetchArtistByName($name);
     }
 
     private function getAllOrders()
@@ -162,19 +162,57 @@ class AdminController
         return $this->model->fetchRecordById($this->id);
     }
 
-    private function getAllArtists() 
-    {
-        return $this->model->fetchAllArtists();
-    }
-
-    private function getProductForm($product)
-    {
-        $this->view->viewProductForm($product);
-    }
-
     private function getOrderById()
     {
         return $this->model->fetchOrderById($this->id);
+    }
+
+    /*******************************
+            SHALLOW DELETE
+     ********************************/
+    private function deleteProduct() {
+        $record_id = $this->sanitize($_POST['record_id']);
+        $this->model->deleteRecord($record_id);
+        echo "<script>location.href = 'http://localhost/record-store/admin/products';</script>";
+
+    }
+
+    /*******************************
+                VIEWS
+    ********************************/
+
+    private function products()
+    {
+        $records = $this->getAllProducts();
+        $this->view->viewAllProducts($records);
+    }
+
+    private function orderDetails()
+    {
+        $order = $this->getOrderById();
+        $this->view->viewOrderDetails($order);
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $this->setToSent();
+            header("Location: " . $this->destination . "admin/orders");
+            die();
+        }
+    }
+
+    private function orders()
+    {
+        $orders = $this->getAllOrders();
+        $this->view->viewAllOrders($orders);
+    }
+
+    private function getHeader($title)
+    {
+        $this->view->viewHeader($title);
+    }
+
+    private function getProductForm($product = false)
+    {
+        $product = $product ? $product[0] : $product;   
+        $this->view->viewProductForm($product);
     }
 
     private function getFooter()
@@ -185,6 +223,15 @@ class AdminController
     private function getLoginForm()
     {
         $this->view->viewLoginForm();
+    }
+    /*******************************
+            HELP METHODS
+    ********************************/
+
+
+    private function setId($id)
+    {
+        $this->id = is_numeric($id) ? $id : false;
     }
 
     private function login()
@@ -200,7 +247,6 @@ class AdminController
             $e->getMessage();
         }
     }
-
     /**
      * Sanitize Inputs
      * https://www.w3schools.com/php/php_form_validation.asp

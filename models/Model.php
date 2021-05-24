@@ -17,7 +17,9 @@ class Model
             GROUP_CONCAT(artists.name SEPARATOR ', ') AS name
             FROM records 
             LEFT JOIN records_has_artists ON records_has_artists.id_record = records.id_record 
-            LEFT JOIN artists ON artists.id_artist = records_has_artists.id_artist GROUP BY records.id_record
+            LEFT JOIN artists ON artists.id_artist = records_has_artists.id_artist 
+            WHERE records.for_sale = 1
+            GROUP BY records.id_record
         "
         );
         return $records;
