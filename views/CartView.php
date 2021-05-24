@@ -92,7 +92,7 @@ class CartView
             <div class="card mb-3" style="max-width: 700px;">
                 <div class="row g-0">
                     <div class="mx-auto col-md-6">
-                        <img  style="max-width: 300px;" class="img-fluid" src=$cart[cover] alt="">
+                        <img  style="max-width: 310px;" class="img-fluid" src=$cart[cover] alt="">
                     </div>
                     <div class="col-md-6">
                         <div class="card-body">
@@ -142,7 +142,7 @@ class CartView
                         <!-- Skicka köp form till annan sida? -->
                         <input type="submit" 
                                 name="order"
-                                class="btn btn-md btn-primary" 
+                                class="mb-3 btn btn-md btn-primary" 
                                 value="Save order">
                     </form>
                 </div>
@@ -156,7 +156,6 @@ class CartView
     public function trimString($title) {
         $pieces = explode(" ", $title);
         $first_part = implode(" ", array_splice($pieces, 0, 5));
-        $other_part = implode(" ", array_splice($pieces, 5));
         if($title == $first_part) {
             return $title;
         } else {
