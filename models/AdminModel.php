@@ -46,15 +46,11 @@ class AdminModel
 
     public function fetchRecordById($id) 
     {
-        $statement = "SELECT r.title, r.description, r.price, r.year_released, r.stock, a.id_artist, a.name, g.id_genre, g.genre FROM records r
+        $statement = "SELECT r.title, r.description, r.price, r.year_released, r.stock, a.id_artist, a.name FROM records r
         JOIN records_has_artists rha
         ON r.id_record=rha.id_record 
         JOIN artists a
         ON rha.id_artist=a.id_artist
-        JOIN records_has_genres rhg
-        ON r.id_record = rhg.id_record
-        JOIN genres g
-        on rhg.id_genre = g.id_genre
         WHERE r.id_record = :id";
         $parameters = array(":id" => $id);
         $record = $this->db->select($statement, $parameters);
