@@ -52,7 +52,7 @@
                     
                     <br />
                     <div id="success"></div>
-                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Log In</button></div>
+                    <div class="form-group"><button class="btn btn-primary btn-xl" id="sendMessageButton" type="submit">Save</button></div>
                 </form>
             </div>
         </div>
