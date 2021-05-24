@@ -150,7 +150,14 @@ class AdminModel
     /*******************************
                 DELETE
      ********************************/
-
+    
+    public function deleteRecord($id_record) {
+        $statement = "DELETE FROM records WHERE id_record = :id_record";
+        $parameters = array(
+        ':id_record' => $id_record
+        );
+        $this->db->delete($statement, $parameters);
+    }
 
     /*******************************
             HELP METHODS

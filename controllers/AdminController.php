@@ -38,10 +38,14 @@ class AdminController
 
                 break;
             case "products":
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
+                    $this->deleteProduct();
+                }
                 if($id !== "add" && is_numeric($id)) $this->updateProduct();
                 else if($id == "add") {
                     $this->createProduct();
                 }
+
                 else $this->products();
 
                 break;
@@ -162,6 +166,16 @@ class AdminController
     {
         return $this->model->fetchOrderById($this->id);
     }
+
+    /*******************************
+                DELETE
+     ********************************/
+    private function deleteProduct() {
+        $record_id = $this->sanitize($_POST['record_id']);
+        $this->model->deleteRecord($record_id);
+        $this->model->deleteRecordHasArtist();
+    }
+
     /*******************************
                 VIEWS
     ********************************/

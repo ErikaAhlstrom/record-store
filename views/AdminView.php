@@ -25,7 +25,11 @@ class AdminView
             <th scope="row">$record[id_record]</th>
             <td>$record[title]</td>
             <td><a class="btn btn-primary" href="$destination">Update</a></td>
-            <td><a class="btn btn-danger">Delete</a></td>
+            <td>
+            <form method="POST" action="#">
+                <input type="hidden" name="record_id" value="$record[id_record]">
+                <input value="Delete" type="submit"  name="delete" class="btn btn-danger"></td>
+            </form>
             </tr>
         HTML;
 
