@@ -117,6 +117,7 @@ class AdminModel
         ON records.id_record=records_has_artists.id_record 
         JOIN artists 
         ON records_has_artists.id_artist=artists.id_artist
+        WHERE records.for_sale = 1
         "
         );
         return $records;
@@ -148,15 +149,15 @@ class AdminModel
         $this->db->update($statement, $parameters);
     }
     /*******************************
-                DELETE
+            SHALLOW DELETE
      ********************************/
     
     public function deleteRecord($id_record) {
-        $statement = "DELETE FROM records WHERE id_record = :id_record";
+        $statement = "UPDATE records SET for_sale = 0 WHERE id_record = :id_record";
         $parameters = array(
         ':id_record' => $id_record
         );
-        $this->db->delete($statement, $parameters);
+        $this->db->update($statement, $parameters);
     }
 
     /*******************************
