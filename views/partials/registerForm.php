@@ -1,3 +1,10 @@
+<?php
+$errorMessages = "";
+foreach($errors as $error) {
+    $errorMessages .= "<p class='alert alert-danger'>$error</p>";
+}
+?>
+
 <section class="page-section mt-5" id="register">
     <div class="container">
         <!-- Contact Section Heading-->
@@ -11,6 +18,7 @@
         <!-- Contact Section Form-->
         <div class="row">
             <div class="col-lg-8 mx-auto">
+                <?=$errorMessages?>
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
                 <form method="POST" action="#" novalidate="novalidate">
                     <div class="control-group">

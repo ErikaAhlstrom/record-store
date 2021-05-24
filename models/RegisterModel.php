@@ -8,20 +8,16 @@ class RegisterModel
         $this->db = $database;
     }
 
-    public function registerCustomer($firstName, $lastName, $email, $phone, $password)
+    public function registerCustomer($customer)
     {
-        if ($this->userCheck($email)) {
-            throw new Exception("Email already exist");
-        }
-
         $statement = "INSERT INTO customers (firstName, lastName, email, phone_number, password)
                       VALUES (:firstName, :lastName, :email, :phone, :password)";
-        $parameters = array(':firstName' => $firstName, ':lastName' => $lastName, ':email' => $email, ':phone' => $phone, ':password' => $password);
+        $parameters = array(':firstName' => $customer['firstName'], ':lastName' => $customer['lastName'], ':email' => $customer['email'], ':phone' => $customer['phone'], ':password' => $customer['password']);
 
         return $this->db->insert($statement, $parameters);
     }
 
-    private function userCheck($email)
+    public function userCheck($email)
     {
         $statement = "SELECT * FROM customers WHERE email = :email";
         $parameters = array(":email" => $email);

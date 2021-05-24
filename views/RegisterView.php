@@ -11,7 +11,7 @@ class RegisterView
         include_once("views/partials/footer.php");
     }
 
-    public function viewRegisterForm()
+    public function viewRegisterForm($customer, $errors)
     {
         include_once("views/partials/registerForm.php");
     }
