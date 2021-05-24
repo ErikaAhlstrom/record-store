@@ -72,6 +72,20 @@ class AdminModel
         $this->db->update($statement, $parameters);
     }
 
+    public function insertProduct($record) {
+        $statement = "INSERT INTO records (title, description, price, year_released, cover, stock) VALUES (:title, :description, :price, :year_released, :cover, :stock)";
+        $parameters = array(
+            ":title" => $record['title'],
+            ":description" => $record['description'],
+            ":price" => $record['price'],
+            ":year_released" => $record['year_released'],
+            ":cover" => "assets/img/record_player.png",
+            ":stock" => $record['stock']
+        );
+        $lastInsertId = $this->db->insert($statement, $parameters);
+        return $lastInsertId;
+    }
+
     public function updateRecordsHasArtists($id_record, $id_artist) {
         $statement = "UPDATE records_has_artists SET id_artist = :id_artist WHERE id_record = :id_record";
         $parameters = array(":id_artist" => $id_artist, ":id_record" => $id_record);
@@ -96,6 +110,13 @@ class AdminModel
         $statement = "INSERT INTO artists (name) VALUES (:name)";
         $parameters = array(':name' => $name);
         return $this->db->insert($statement, $parameters);
+    }
+
+    public function insertRecordsHasArtists($artist_id, $record_id) {
+        $statement = "INSERT INTO records_has_artists VALUES (:record_id, :artist_id)";
+        $parameters = array(':artist_id' => $artist_id,
+                            ':record_id' => $record_id);
+        $this->db->insert($statement, $parameters);
     }
 
     public function fetchAllOrders()

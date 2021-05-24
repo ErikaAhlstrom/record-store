@@ -77,9 +77,13 @@ class AdminView
 
     public function viewAllProducts($records)
     {
+        $destination = URLROOT . "admin/products/add";
         $tableStart = <<<HTML
         <div class="container masthead">
+            <div class='d-flex justify-content-between'>
             <h2>Records Inventory</h2>
+            <a href=$destination class='btn btn-dark'>Add product</a>
+            </div>
             <table class="table mt-2">
                 <thead>
                     <tr>
@@ -182,9 +186,9 @@ class AdminView
 
         echo "</div>";
     }
-
-    public function viewProductForm($product) {
-        $product = $product[0];
+    // Renderar samma form för update OCH create.
+    public function viewProductForm($product) 
+    {    
         include_once("views/partials/productForm.php");
     }
 }
