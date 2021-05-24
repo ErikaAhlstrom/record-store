@@ -20,7 +20,7 @@ $errorMessage = $error ? "<p class='alert alert-danger'>$error</p>" : ""
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Username</label>
-                            <input name="username" class="form-control" id="username" type="text" placeholder="Username" required="required" data-validation-required-message="Please enter your username." />
+                            <input name="username" class="form-control" id="username" type="text" autocomplete="off" placeholder="Username" required="required" data-validation-required-message="Please enter your username." />
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
