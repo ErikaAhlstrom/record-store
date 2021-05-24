@@ -168,12 +168,13 @@ class AdminController
     }
 
     /*******************************
-                DELETE
+            SHALLOW DELETE
      ********************************/
     private function deleteProduct() {
         $record_id = $this->sanitize($_POST['record_id']);
         $this->model->deleteRecord($record_id);
-        $this->model->deleteRecordHasArtist();
+        echo "<script>location.href = 'http://localhost/record-store/admin/products';</script>";
+
     }
 
     /*******************************
