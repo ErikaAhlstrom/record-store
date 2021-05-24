@@ -177,22 +177,7 @@ class AdminModel
 
         return $admin;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    
     public function setToSent($id) {
         $statement = "UPDATE orders SET sent = 1 WHERE id_order = :id";
         $parameters = array(":id" => $id);
