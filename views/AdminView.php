@@ -191,7 +191,7 @@ class AdminView
         echo "</div>";
     }
     // Renderar samma form för update OCH create.
-    public function viewProductForm($product) 
+    public function viewProductForm($product, $errors) 
     {    
         include_once("views/partials/productForm.php");
     }

@@ -14,19 +14,19 @@ class CartController
     public function cart($show)
     {
         $this->getHeader("Cart");
-
-        $customer_id = $_SESSION['customer']['id_customer'];
-
-        $cart = $this->model->fetchCartByCustomerId($customer_id);
-
-        if ($cart) {
-            $totalSum = $this->calcTotal($cart);
-            $this->view->viewCartPage($cart, $totalSum);
-        } else if ($show) {
-            // View Thank You Message
-            $this->view->thankYou();
-        } else {
-            $this->view->viewEmptyCart();
+        if(!$_SESSION['customer']['id_customer']) $this->view->viewEmptyCart();
+        else {
+            $customer_id = $_SESSION['customer']['id_customer'];
+            $cart = $this->model->fetchCartByCustomerId($customer_id);
+            if ($cart) {
+                $totalSum = $this->calcTotal($cart);
+                $this->view->viewCartPage($cart, $totalSum);
+            } else if ($show) {
+                // View Thank You Message
+                $this->view->thankYou();
+            } else {
+                $this->view->viewEmptyCart();
+            }
         }
 
         // ORDER

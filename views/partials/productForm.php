@@ -7,15 +7,23 @@ $yearReleased = $product ? $product['year_released'] : "";
 $artistName = $product ? $product['name'] : "";
 $stock = $product ? $product['stock'] : "";
 $description = $product ? $product['description'] : "";
+
+$errorMessages = "";
+if($errors) {
+        foreach($errors as $error) {
+            $errorMessages .= "<p class='alert alert-danger'>$error</p>";
+        }
+}
 ?>
 
 <section class="page-section masthead min-vh-100" id="login">
         <div class="container">
                 <!-- Contact Section Heading-->
-                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0"><?= $heading ?></h2>
+                <h2 class="page-section-heading text-center text-uppercase text-secondary mb-3"><?= $heading ?></h2>
                 <!-- Contact Section Form-->
                 <div class="row">
                         <div class="col-lg-8 mx-auto">
+                        <?=$errorMessages?>
                                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
                                 <form method="POST" action="#" novalidate="novalidate">
                                         <div class="control-group">

@@ -15,7 +15,7 @@ class AdminController
     }
     /*******************************
                 ROUTE
-    ********************************/
+     ********************************/
 
     public function admin($param, $id)
     {
@@ -38,12 +38,10 @@ class AdminController
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
                     $this->deleteProduct();
                 }
-                if($id !== "add" && is_numeric($id)) $this->updateProduct();
-                else if($id == "add") {
+                if ($id !== "add" && is_numeric($id)) $this->updateProduct();
+                else if ($id == "add") {
                     $this->createProduct();
-                }
-
-                else $this->products();
+                } else $this->products();
 
                 break;
             case "orders":
@@ -64,14 +62,14 @@ class AdminController
 
     /*******************************
                 CREATE
-    ********************************/
+     ********************************/
 
     private function createArtist($name)
     {
         return $this->model->insertArtist($name);
     }
 
-    private function createProduct() 
+    private function createProduct()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $name = $this->sanitize($_POST['name']);
@@ -79,21 +77,31 @@ class AdminController
             $artist_id = $artist ? $artist[0]['id_artist'] : $this->createArtist($name);
 
             foreach ($_POST as $key => $value) {
+                if ($key != 'description' && !$value) $empty = true;
                 $record[$key] = $this->sanitize($value);
             }
-            $record_id = $this->model->insertProduct($record);
-            $this->createRecordsHasArtists($artist_id, $record_id);
-        }
-        $this->getProductForm();
+
+            if ($empty) $errors[] = "All but description are required";
+
+            if (!is_numeric($record['price'])) $errors[] = "Price must be in digits";
+
+            if (!is_numeric($record['year_released']) && strlen($record['year_released'] != 4)) $errors[] = "Year must be 4 digits";
+
+            if (!$errors) {
+                $record_id = $this->model->insertProduct($record);
+                $this->createRecordsHasArtists($artist_id, $record_id);
+            } else $this->getProductForm($record, $errors);
+        } else $this->getProductForm();
     }
 
-    private function createRecordsHasArtists($artist_id, $record_id) {
+    private function createRecordsHasArtists($artist_id, $record_id)
+    {
         $this->model->insertRecordsHasArtists($artist_id, $record_id);
     }
 
     /*******************************
                 UPDATE
-    ********************************/
+     ********************************/
 
     private function updateProduct()
     {
@@ -107,20 +115,34 @@ class AdminController
             if ($artist_id !== $records_has_artists[0]['id_artist']) $this->updateRecordsHasArtists($artist_id);
 
             foreach ($_POST as $key => $value) {
+                if ($key != 'description' && !$value) $empty = true;
                 $record[$key] = $this->sanitize($value);
             }
-            $this->updateRecord($record);
+
+            if ($empty) $errors[] = "All but description are required";
+
+            if (!is_numeric($record['price'])) $errors[] = "Price must be in digits";
+
+            if (!is_numeric($record['stock'])) $errors[] = "Stock must be in digits";
+
+            if (!is_numeric($record['year_released']) && strlen($record['year_released'] != 4)) $errors[] = "Year must be 4 digits";
+
+            if (!$errors) {
+                $this->updateRecord($record);
+            } else $this->getProductForm($record, $errors);
+
+        } else {
+            $product = $this->getProductById();
+            $this->getProductForm($product[0]);
         }
-        $product = $this->getProductById();
-        $this->getProductForm($product);
     }
 
-    private function updateRecord($record) 
+    private function updateRecord($record)
     {
         $this->model->updateRecord($this->id, $record);
     }
 
-    private function updateRecordsHasArtists($artist_id) 
+    private function updateRecordsHasArtists($artist_id)
     {
         $this->model->updateRecordsHasArtists($this->id, $artist_id);
     }
@@ -132,14 +154,14 @@ class AdminController
 
     /*******************************
                 READ
-    ********************************/
+     ********************************/
 
     private function getRecordsHasArtistsById()
     {
         return $this->model->fetchRecordsHasArtistsById($this->id);
     }
 
-    private function getArtistByName($name) 
+    private function getArtistByName($name)
     {
         return $this->model->fetchArtistByName($name);
     }
@@ -167,16 +189,16 @@ class AdminController
     /*******************************
             SHALLOW DELETE
      ********************************/
-    private function deleteProduct() {
+    private function deleteProduct()
+    {
         $record_id = $this->sanitize($_POST['record_id']);
         $this->model->deleteRecord($record_id);
         echo "<script>location.href = 'http://localhost/record-store/admin/products';</script>";
-
     }
 
     /*******************************
                 VIEWS
-    ********************************/
+     ********************************/
 
     private function products()
     {
@@ -206,10 +228,9 @@ class AdminController
         $this->view->viewHeader($title);
     }
 
-    private function getProductForm($product = false)
+    private function getProductForm($product = false, $errors = false)
     {
-        $product = $product ? $product[0] : $product;   
-        $this->view->viewProductForm($product);
+        $this->view->viewProductForm($product, $errors);
     }
 
     private function getFooter()
@@ -223,7 +244,7 @@ class AdminController
     }
     /*******************************
             HELP METHODS
-    ********************************/
+     ********************************/
 
 
     private function setId($id)
