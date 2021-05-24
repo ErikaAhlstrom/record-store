@@ -177,6 +177,7 @@ class AdminController
     {
         $destination = URLROOT . "admin/products";
         $record = $this->model->fetchRecordById($this->id);
+        
         if(empty($record)){
             header("Location: $destination");
             die();
