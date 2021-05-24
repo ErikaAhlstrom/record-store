@@ -28,11 +28,6 @@ class RegisterController
 
     private function registration()
     {
-        // $firstName = $this->sanitize($_POST['firstName']);
-        // $lastName = $this->sanitize($_POST['lastName']);
-        // $email = $this->sanitize($_POST['email']);
-        // $phone = $this->sanitize($_POST['phone']);
-        // $password = $this->sanitize($_POST['password']);
         $customer = [];
         foreach ($_POST as $key => $value) {
             if (!$value) $empty = true;

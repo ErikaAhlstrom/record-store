@@ -266,9 +266,13 @@ class AdminController
     {
         $username = $this->sanitize($_POST["username"]);
         $password = $this->sanitize($_POST["password"]);
-
+        
         try {
             $admin = $this->model->loginAdmin($username, $password);
+            session_start();
+            session_unset();
+            session_destroy();
+            session_start();
             $_SESSION["admin"] = $admin;
             header("Location: $this->destination" . "admin/products");
             die();
