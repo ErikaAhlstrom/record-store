@@ -15,7 +15,7 @@ class RegisterController
         $this->getHeader("Register");
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->registration();
-        }else {
+        } else {
             $this->getRegisterForm();
         }
         $this->getFooter();
@@ -39,10 +39,6 @@ class RegisterController
         if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) $errors[] = "Email is not valid";
 
         if (strlen($_POST['password']) < 6) $errors[] = "Password to short";
-
-        if (!preg_match("/^[a-zA-Z-' ]*$/", $customer['firstName']) || !preg_match("/^[a-zA-Z-' ]*$/", $customer['lastName'])) {
-            $errors[] = "Only letters and white space allowed in first and last name";
-        }
 
         if ($this->model->userCheck($customer['email'])) $errors[] = "Email already exist";
 
