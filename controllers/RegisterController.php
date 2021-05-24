@@ -12,11 +12,12 @@ class RegisterController
 
     public function register()
     {
+        $this->getHeader("Register");
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->registration();
+        }else {
+            $this->getRegisterForm();
         }
-        $this->getHeader("Login");
-        $this->getRegisterForm();
         $this->getFooter();
     }
 
@@ -55,8 +56,8 @@ class RegisterController
         if ($errors) $this->getRegisterForm($customer, $errors);
         else {
             $this->model->registerCustomer($customer);
-            $destination = URLROOT;
-            header("Location: $destination/login");
+            $destination = URLROOT . "login";
+            header("Location: $destination");
             die();
         }
     }

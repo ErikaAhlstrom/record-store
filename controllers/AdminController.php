@@ -35,13 +35,11 @@ class AdminController
 
                 break;
             case "products":
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) {
-                    $this->deleteProduct();
-                }
+                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) $this->deleteProduct();
+                
                 if ($id !== "add" && is_numeric($id)) $this->updateProduct();
-                else if ($id == "add") {
-                    $this->createProduct();
-                } else $this->products();
+                elseif ($id === "add") $this->createProduct();
+                else $this->products();
 
                 break;
             case "orders":
@@ -130,7 +128,6 @@ class AdminController
             if (!$errors) {
                 $this->updateRecord($record);
             } else $this->getProductForm($record, $errors);
-
         } else {
             $product = $this->getProductById();
             $this->getProductForm($product[0]);
@@ -178,12 +175,25 @@ class AdminController
 
     private function getProductById()
     {
-        return $this->model->fetchRecordById($this->id);
+        $destination = URLROOT . "admin/products";
+        $record = $this->model->fetchRecordById($this->id);
+        if(empty($record)){
+            header("Location: $destination");
+            die();
+        } 
+        return $record;
     }
 
     private function getOrderById()
-    {
-        return $this->model->fetchOrderById($this->id);
+    {   
+        $destination = URLROOT . "admin/orders";
+        $order = $this->model->fetchOrderById($this->id);
+        
+        if(empty($order)){
+            header("Location: $destination");
+            die();
+        }
+        return $order;
     }
 
     /*******************************
