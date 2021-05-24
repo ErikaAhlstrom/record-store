@@ -13,6 +13,7 @@ class LoginController
 
     public function login()
     {
+        $this->getHeader("Login");
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
             $email = $this->sanitize($_POST['email']);
@@ -23,11 +24,11 @@ class LoginController
                 $destination = URLROOT;
                 header("Location: $destination");
             } catch (Exception $e) {
-                echo $e->getMessage();
+                
+                $this->getLoginForm($e->getMessage());
             }
-        }
-        $this->getHeader("Login");
-        $this->getLoginForm();
+        } else $this->getLoginForm();
+
         $this->getFooter();
     }
 
@@ -36,9 +37,9 @@ class LoginController
         $this->view->viewHeader($title);
     }
 
-    private function getLoginForm()
+    private function getLoginForm($errors = false)
     {
-        $this->view->viewLoginForm();
+        $this->view->viewLoginForm($errors);
     }
 
     private function getFooter()

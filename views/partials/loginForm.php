@@ -1,3 +1,7 @@
+<?php
+$errorMessage = $error ? "<p class='alert alert-danger'>$error</p>" : ""
+?>
+
 <section class="page-section masthead vh-100" id="login">
     <div class="container">
         <!-- Contact Section Heading-->
@@ -11,6 +15,7 @@
         <!-- Contact Section Form-->
         <div class="row">
             <div class="col-lg-8 mx-auto">
+                <?=$errorMessage?>
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
                 <form method="POST" action="#" novalidate="novalidate">
                     <div class="control-group">

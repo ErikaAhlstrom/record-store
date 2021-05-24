@@ -30,11 +30,8 @@ class AdminController
                     die();
                 }
 
-                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                    $this->login();
-                }
-
-                $this->getLoginForm();
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') $this->login();
+                else $this->getLoginForm();
 
                 break;
             case "products":
@@ -220,9 +217,9 @@ class AdminController
         $this->view->viewFooter();
     }
 
-    private function getLoginForm()
+    private function getLoginForm($error = false)
     {
-        $this->view->viewLoginForm();
+        $this->view->viewLoginForm($error);
     }
     /*******************************
             HELP METHODS
@@ -240,11 +237,12 @@ class AdminController
         $password = $this->sanitize($_POST["password"]);
 
         try {
-            $_SESSION["admin"] = $this->model->loginAdmin($username, $password);
+            $admin = $this->model->loginAdmin($username, $password);
+            $_SESSION["admin"] = $admin;
             header("Location: $this->destination" . "admin/products");
             die();
         } catch (Exception $e) {
-            $e->getMessage();
+            $this->getLoginForm($e->getMessage());
         }
     }
     /**
