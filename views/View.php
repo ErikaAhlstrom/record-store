@@ -30,11 +30,10 @@ class View
   {
     $html = <<<HTML
                   <div class="col-md-6 col-lg-4 mb-5">
+                  
                       <div class="portfolio-item mx-auto" data-toggle="modal" data-target="#portfolioModal$record[id_record]">
-                          <div class="portfolio-item-caption d-flex align-items-center justify-content-center h-100 w-100">
-                              <div class="portfolio-item-caption-content text-center text-white"><i class="fas fa-plus fa-3x"></i></div>
-                          </div>
                           <img class="img-fluid" src="$record[cover]" alt="..." />
+                          <p class="text-muted mt-3"><small>$record[title]</small></p>
                       </div>
                   </div>
       HTML;
