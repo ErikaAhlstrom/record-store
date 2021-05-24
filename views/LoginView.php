@@ -11,7 +11,7 @@ class LoginView
         include_once("views/partials/footer.php");
     }
 
-    public function viewLoginForm()
+    public function viewLoginForm($error)
     {
         include_once("views/partials/loginForm.php");
     }

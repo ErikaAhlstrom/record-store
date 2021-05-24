@@ -13,7 +13,7 @@ class Controller
 
     public function index()
     {
-        $this->getHeader("Välkommen");
+        $this->getHeader("Record Store");
         $this->getHero();
         $this->getAllRecords();
 
@@ -26,11 +26,16 @@ class Controller
 
     private function processAddToCart()
     {
-        $customer_id = $_SESSION['customer']['id_customer'];
-        $record_id = $this->sanitize($_POST['record_id']);
-        $amount = $this->sanitize($_POST['amount']);
-        $confirm = $this->model->addToCart($customer_id, $record_id, $amount);
-        return $confirm;
+        $destination = URLROOT . "cart";
+        if(isset($_SESSION['customer']['id_customer'])){
+            $customer_id = $_SESSION['customer']['id_customer'];
+            $record_id = $this->sanitize($_POST['record_id']);
+            $amount = $this->sanitize($_POST['amount']);
+            $confirm = $this->model->addToCart($customer_id, $record_id, $amount);
+            return $confirm;
+        } else {
+            echo "<script>location.href = 'http://localhost/record-store/cart';</script>";
+        }
     }
 
     private function getHeader($title)

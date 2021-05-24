@@ -1,3 +1,16 @@
+<?php
+
+$firstName = $customer['firstName'] ?? "";
+$lastName = $customer['lastName'] ?? "";
+$phone = $customer['phone'] ?? "";
+$email = $customer['email'] ?? "";
+
+$errorMessages = "";
+foreach($errors as $error) {
+    $errorMessages .= "<p class='alert alert-danger'>$error</p>";
+}
+?>
+
 <section class="page-section mt-5" id="register">
     <div class="container">
         <!-- Contact Section Heading-->
@@ -11,33 +24,34 @@
         <!-- Contact Section Form-->
         <div class="row">
             <div class="col-lg-8 mx-auto">
+                <?=$errorMessages?>
                 <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19.-->
                 <form method="POST" action="#" novalidate="novalidate">
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>First Name</label>
-                            <input name="firstName" class="form-control" id="firstName" type="firstName" placeholder="First Name" required="required" data-validation-required-message="Please enter your first name." />
+                            <input name="firstName" class="form-control" value="<?=$firstName?>" id="firstName" type="firstName" placeholder="First Name" required="required" data-validation-required-message="Please enter your first name." />
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Last Name</label>
-                            <input name="lastName" class="form-control" id="lastName" type="lastName" placeholder="Last Name" required="required" data-validation-required-message="Please enter your last name." />
+                            <input name="lastName" class="form-control" value="<?=$lastName?>" id="lastName" type="lastName" placeholder="Last Name" required="required" data-validation-required-message="Please enter your last name." />
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Email</label>
-                            <input name="email" class="form-control" id="email" type="email" placeholder="Email" required="required" data-validation-required-message="Please enter your email address." />
+                            <input name="email" class="form-control" value="<?=$email?>" id="email" type="email" placeholder="Email" required="required" data-validation-required-message="Please enter your email address." />
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>
                     <div class="control-group">
                         <div class="form-group floating-label-form-group controls mb-0 pb-2">
                             <label>Phone Number</label>
-                            <input name="phone" class="form-control" id="phone" type="text" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number." />
+                            <input name="phone" class="form-control" value="<?=$phone?>" id="phone" type="text" placeholder="Phone Number" required="required" data-validation-required-message="Please enter your phone number." />
                             <p class="help-block text-danger"></p>
                         </div>
                     </div>

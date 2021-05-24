@@ -26,6 +26,9 @@ class CartView
     public function viewEmptyCart()
     {
         $url = URLROOT;
+        $destination = isset($_SESSION['customer']) ? $url : $url . "login";
+        $message = isset($_SESSION['customer']) ? "Your cart is empty!" : "You need to log in to shop!";
+        $button = isset($_SESSION['customer']) ? "Let's shop!" : "Log in";
 
         echo $this->cartBodyStart;
 
@@ -38,8 +41,8 @@ class CartView
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
-                            <h3 class="card-title mb-4">Your bag is empty</h3>
-                            <a href="$url" class="btn btn-primary btn-lg">Let's shop! <i id="arrow-icon" class='bx bx-right-arrow-alt'></i></a>
+                            <h3 class="card-title mb-4">$message</h3>
+                            <a href="$destination" class="btn btn-primary btn-lg">$button <i id="arrow-icon" class='bx bx-right-arrow-alt'></i></a>
                         </div>
                     </div>
                 </div>

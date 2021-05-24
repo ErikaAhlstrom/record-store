@@ -12,7 +12,7 @@ class AdminView
         include_once("views/partials/footer.php");
     }
 
-    public function viewLoginForm()
+    public function viewLoginForm($error)
     {
         include_once("views/partials/loginAdminForm.php");
     }
@@ -191,7 +191,7 @@ class AdminView
         echo "</div>";
     }
     // Renderar samma form för update OCH create.
-    public function viewProductForm($product) 
+    public function viewProductForm($product, $errors) 
     {    
         include_once("views/partials/productForm.php");
     }

@@ -12,11 +12,12 @@ class RegisterController
 
     public function register()
     {
+        $this->getHeader("Register");
         if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $this->registration();
+        }else {
+            $this->getRegisterForm();
         }
-        $this->getHeader("Login");
-        $this->getRegisterForm();
         $this->getFooter();
     }
 
@@ -27,25 +28,38 @@ class RegisterController
 
     private function registration()
     {
-        $firstName = $this->sanitize($_POST['firstName']);
-        $lastName = $this->sanitize($_POST['lastName']);
-        $email = $this->sanitize($_POST['email']);
-        $phone = $this->sanitize($_POST['phone']);
-        $password = $this->sanitize($_POST['password']);
-        $password = password_hash($password, PASSWORD_DEFAULT);
-        try {
-            $this->model->registerCustomer($firstName, $lastName, $email, $phone, $password);
-            $destination = URLROOT;
-            header("Location: $destination/login");
+        $customer = [];
+        foreach ($_POST as $key => $value) {
+            if (!$value) $empty = true;
+            $customer[$key] = $this->sanitize($value);
+        }
+
+        if ($empty) $errors[] = "All fields are required";
+
+        if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) $errors[] = "Email is not valid";
+
+        if (strlen($_POST['password']) < 6) $errors[] = "Password to short";
+
+        if (!preg_match("/^[a-zA-Z-' ]*$/", $customer['firstName']) || !preg_match("/^[a-zA-Z-' ]*$/", $customer['lastName'])) {
+            $errors[] = "Only letters and white space allowed in first and last name";
+        }
+
+        if ($this->model->userCheck($customer['email'])) $errors[] = "Email already exist";
+
+        $customer['password'] = password_hash($customer['password'], PASSWORD_DEFAULT);
+
+        if ($errors) $this->getRegisterForm($customer, $errors);
+        else {
+            $this->model->registerCustomer($customer);
+            $destination = URLROOT . "login";
+            header("Location: $destination");
             die();
-        } catch (Exception $e) {
-            echo $e->getMessage();
         }
     }
 
-    private function getRegisterForm()
+    private function getRegisterForm($customer = false, $errors = false)
     {
-        $this->view->viewRegisterForm();
+        $this->view->viewRegisterForm($customer, $errors);
     }
 
     private function getFooter()
