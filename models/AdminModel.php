@@ -172,7 +172,7 @@ class AdminModel
         $admin = $this->db->select($statement, $parameters)[0];
 
         if (empty($admin) || !password_verify($password, $admin['password'])) {
-            throw new Exception("Email or password is wrong");
+            throw new Exception("Username or password is wrong");
         }
 
         return $admin;

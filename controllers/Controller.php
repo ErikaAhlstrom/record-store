@@ -13,7 +13,7 @@ class Controller
 
     public function index()
     {
-        $this->getHeader("Välkommen");
+        $this->getHeader("Record Store");
         $this->getHero();
         $this->getAllRecords();
 
