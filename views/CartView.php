@@ -170,11 +170,13 @@ class CartView
     {
         $url = URLROOT;
         $customer_name = ucfirst($_SESSION['customer']['firstName']);
+        $customer_email = $_SESSION['customer']['email'];
         echo $this->cartBodyStart;
         $thankYouDiv = <<<HTML
         <div class="col-12 text-center">
-            <h2 class="mb-2 text-dark">Thank you $customer_name!</h2>
+            <h2 class="mb-2 text-dark">Thank you $customer_name for your purchase!</h2>
             <img class="img-fluid" style="max-width: 400px;" src=$url/assets/img/record-playing.gif alt="record playing gif">
+            <h4 class="mt-2 text-dark">We've sent your order reciept to $customer_email</h4>
         </div>
         HTML;
         echo $thankYouDiv;

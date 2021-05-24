@@ -272,8 +272,6 @@ class AdminController
             $admin = $this->model->loginAdmin($username, $password);
             session_start();
             session_unset();
-            session_destroy();
-            session_start();
             $_SESSION["admin"] = $admin;
             header("Location: $this->destination" . "admin/products");
             die();

@@ -20,11 +20,13 @@ class LoginController
             $password = $this->sanitize($_POST['password']);
             try {
                 $customer = $this->model->loginCustomer($email, $password);
+                session_start();
+                session_unset();
                 $_SESSION['customer'] = $customer;
                 $destination = URLROOT;
                 header("Location: $destination");
             } catch (Exception $e) {
-                
+
                 $this->getLoginForm($e->getMessage());
             }
         } else $this->getLoginForm();
