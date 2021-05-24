@@ -1,6 +1,6 @@
 <?php
 $destination = URLROOT . "admin/products";
-$heading = $product ? "Update product" : "Create product";
+$heading = $update ? "Update product" : "Create product";
 $title = $product ? $product['title'] : "";
 $price = $product ? $product['price'] : "";
 $yearReleased = $product ? $product['year_released'] : "";

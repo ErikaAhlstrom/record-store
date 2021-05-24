@@ -35,6 +35,11 @@ class AdminController
 
                 break;
             case "products":
+                if(!isset($_SESSION['admin'])){
+                    header("Location: $this->destination" . 'admin');
+                    die();
+                } 
+
                 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['delete'])) $this->deleteProduct();
                 
                 if ($id !== "add" && is_numeric($id)) $this->updateProduct();
@@ -43,15 +48,17 @@ class AdminController
 
                 break;
             case "orders":
+                if(!isset($_SESSION['admin'])) {
+                    header("Location: $this->destination" . 'admin');
+                    die();
+                }
                 if ($id) $this->orderDetails();
                 else $this->orders();
 
                 break;
-            case "customers":
-
-                break;
             default:
-                //$controller->index("This endpoint doesn't exist!");
+                header("Location: $this->destination" . "admin/products");
+                die();
                 break;
         }
 
@@ -88,6 +95,9 @@ class AdminController
             if (!$errors) {
                 $record_id = $this->model->insertProduct($record);
                 $this->createRecordsHasArtists($artist_id, $record_id);
+                $destination = $this->destination . "admin/products";
+                header("Location: $destination");
+                die();
             } else $this->getProductForm($record, $errors);
         } else $this->getProductForm();
     }
@@ -127,10 +137,13 @@ class AdminController
 
             if (!$errors) {
                 $this->updateRecord($record);
-            } else $this->getProductForm($record, $errors);
+                $destination = $this->destination . "admin/products";
+                header("Location: $destination");
+                die();
+            } else $this->getProductForm($record, $errors, true);
         } else {
             $product = $this->getProductById();
-            $this->getProductForm($product[0]);
+            $this->getProductForm($product[0], false, true);
         }
     }
 
@@ -239,9 +252,9 @@ class AdminController
         $this->view->viewHeader($title);
     }
 
-    private function getProductForm($product = false, $errors = false)
+    private function getProductForm($product = false, $errors = false, $update = false)
     {
-        $this->view->viewProductForm($product, $errors);
+        $this->view->viewProductForm($product, $errors, $update);
     }
 
     private function getFooter()
